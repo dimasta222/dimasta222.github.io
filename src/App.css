@@ -1,0 +1,10 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media (max-width: 760px) {
+  .shelko-price-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
