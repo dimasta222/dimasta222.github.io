@@ -4,6 +4,9 @@ import { scanFonts } from './scripts/scan-fonts.mjs'
 
 const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')?.[1]
 const isGitHubActionsBuild = process.env.GITHUB_ACTIONS === 'true'
+// User/Org Pages (<user>.github.io) are served from the domain root, so they
+// must keep base '/'. Only project pages live under a /<repo>/ subpath.
+const isUserSiteRepo = repositoryName ? repositoryName.endsWith('.github.io') : false
 
 function localFontsPlugin() {
   return {
@@ -24,7 +27,7 @@ function localFontsPlugin() {
 
 export default defineConfig({
   plugins: [react(), localFontsPlugin()],
-  base: isGitHubActionsBuild && repositoryName ? `/${repositoryName}/` : '/',
+  base: isGitHubActionsBuild && repositoryName && !isUserSiteRepo ? `/${repositoryName}/` : '/',
   server: {
     host: '127.0.0.1',
   },
