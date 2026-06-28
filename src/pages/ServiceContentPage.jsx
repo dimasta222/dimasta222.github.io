@@ -2,7 +2,7 @@
 // Теперь это не только текстовая посадочная, а визуальная страница:
 // hero с мокапом, слайды-примеры, карточки применения, цены, FAQ и перелинковка.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SERVICE_PHOTOS } from "../assets/servicePhotos.js";
 import { METER_PRICES, PRINT_FORMATS } from "../data/printFormats.js";
@@ -590,6 +590,8 @@ function NoteCard({ title, text }) {
 function VideoMockup({ visual, compact, photo, video, videoCaption }) {
   const captions = Array.isArray(videoCaption) ? videoCaption : videoCaption ? [videoCaption] : [];
   const [capIdx, setCapIdx] = useState(0);
+  const videoRef = useRef(null);
+  const [frameReady, setFrameReady] = useState(false);
 
   useEffect(() => {
     if (captions.length < 2) return undefined;
@@ -597,20 +599,30 @@ function VideoMockup({ visual, compact, photo, video, videoCaption }) {
     return () => clearInterval(id);
   }, [captions.length]);
 
+  const startPlayback = () => {
+    const el = videoRef.current;
+    if (el) {
+      const p = el.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    }
+  };
+
   const caption = captions[capIdx];
 
   return (
     <div style={{ position: "relative", width: "100%", height: compact ? 300 : 460, minHeight: compact ? 250 : 360, borderRadius: 28, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.03)", boxShadow: "0 26px 80px rgba(0,0,0,.35)" }}>
       <video
+        ref={videoRef}
         src={video}
-        poster={photo || undefined}
-        autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-label={visual.caption || visual.product}
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "brightness(.82)" }}
+        onLoadedData={() => setFrameReady(true)}
+        onCanPlay={startPlayback}
+        onCanPlayThrough={startPlayback}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "brightness(.82)", opacity: frameReady ? 1 : 0, transition: "opacity .4s ease" }}
       />
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(180deg, rgba(8,10,16,.18), rgba(8,10,16,.16) 45%, rgba(8,10,16,.42))" }} />
       {caption && (
