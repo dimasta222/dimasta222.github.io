@@ -713,7 +713,7 @@ function flattenCatalogItems(items) {
   });
 }
 
-function TextilePage({ type, onBack, onNavigate, initialProduct, onClearInitialProduct, onOpenConstructor, onOpenCookiePolicy }) {
+function TextilePage({ type, onBack, onGoHome, onNavigate, initialProduct, onClearInitialProduct, onOpenConstructor, onOpenCookiePolicy }) {
   const data = TEXTILE_DATA[type];
   const [cart, setCart] = useState([]);
 
@@ -893,10 +893,14 @@ function TextilePage({ type, onBack, onNavigate, initialProduct, onClearInitialP
       )}
 
       <div className="page-shell" style={{ maxWidth: 1240, margin: "0 auto", padding: "28px 5% 0" }}>
-        <button type="button" onClick={onBack} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 12, background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-          <LogoMini />
-        </button>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+          <button type="button" onClick={onBack} aria-label="Назад" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          </button>
+          <button type="button" onClick={onGoHome} aria-label="На главную" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <LogoMini />
+          </button>
+        </div>
 
         <div style={{ textAlign: "center", margin: "36px 0 20px" }}>
           <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: 4, color: "#6c5ce7", textTransform: "uppercase" }}>Изделия</span>
@@ -965,7 +969,7 @@ function TextilePage({ type, onBack, onNavigate, initialProduct, onClearInitialP
 /* ══════════════════════════════════════════
    CALCULATOR PAGE
    ══════════════════════════════════════════ */
-function CalcPage({ onBack, onOpenCookiePolicy, switcher }) {
+function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
   const [withApply, setWithApply] = useState(() => { const s = loadCalcState(); return s?.withApply ?? false; });
   const [items, setItems] = useState(() => {
     const s = loadCalcState();
@@ -1305,10 +1309,14 @@ function CalcPage({ onBack, onOpenCookiePolicy, switcher }) {
       ) : null}
 
       <div className="page-shell-narrow" style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 5% 0" }}>
-        <button type="button" onClick={onBack} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 12, background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-          <LogoMini />
-        </button>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+          <button type="button" onClick={onBack} aria-label="Назад" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          </button>
+          <button type="button" onClick={onGoHome} aria-label="На главную" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <LogoMini />
+          </button>
+        </div>
 
         <div style={{ textAlign: "center", margin: "36px 0 32px" }}>
           <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: 4, color: "#e84393", textTransform: "uppercase" }}>Оптовым клиентам</span>
@@ -1729,7 +1737,8 @@ const RV = [
 // Текстильные разделы обрабатываются отдельно (textile_<type> ↔ /textile/<type>/).
 const PAGE_TO_PATH = {
   main: "/",
-  calc: "/calculator/",
+  calc_choice: "/calculator/",
+  calc: "/calculator/dtf/",
   calc_silk: "/calculator/shelkografiya/",
   calc_termo: "/calculator/termopechat/",
   constructor: "/constructor/",
@@ -1793,7 +1802,6 @@ export default function App() {
   const [cookiePolicyOpen, setCookiePolicyOpen] = useState(false);
   // Показывать экран-развилку выбора калькулятора (DTF / Шелкография).
   // При прямом заходе на /calculator/ показываем выбор; выбор DTF скрывает его.
-  const [calcChoiceOpen, setCalcChoiceOpen] = useState(() => getPageFromPath(window.location.pathname) === "calc");
   const reviewData = useYandexReviews();
   // Запоминаем последнюю «не-калькуляторную» страницу, чтобы кнопка «Назад»
   // в калькуляторе вела на страницу, с которой пришёл пользователь.
@@ -1917,6 +1925,7 @@ export default function App() {
     ymHit(window.location.href);
     const PAGE_GOALS = {
       main: "view_main",
+      calc_choice: "view_calc_choice",
       calc: "view_calc",
       constructor: "view_constructor",
       portfolio: "view_portfolio",
@@ -1965,7 +1974,7 @@ export default function App() {
 
   const go = (s) => {
     if (s === "Работы") { navigateToPage("portfolio"); return; }
-    if (s === "Главная" && pg !== "main") { navigateToPage("main"); setAc("Главная"); return; }
+    if (s === "Главная") { goHome(); return; }
     if (SCROLL_NAV[s]) document.getElementById(SCROLL_NAV[s])?.scrollIntoView({ behavior: "smooth" });
     setAc(s); setMn(false);
   };
@@ -1973,17 +1982,26 @@ export default function App() {
   // Навигация по страницам услуг (выпадающее меню «Печать») — общий обработчик
   // для главной и для SEO-страниц: переходим по path напрямую.
   const goService = (url) => { navigate(url, { state: buildNavigationState() }); setMn(false); setSvcMenuOpen(false); setTxMenuOpen(false); window.scrollTo(0, 0); };
-  const oc = () => { setCalcChoiceOpen(true); navigateToPage("calc"); };
+  const oc = () => { navigateToPage("calc_choice"); };
   // Прямой переход в калькулятор DTF (минуя экран выбора калькулятора).
-  const openDtfCalc = () => { setCalcChoiceOpen(false); navigateToPage("calc"); };
+  const openDtfCalc = () => { navigateToPage("calc"); };
   // Прямой переход в калькулятор шелкографии (минуя экран выбора калькулятора).
-  const openSilkCalc = () => { setCalcChoiceOpen(false); navigateToPage("calc_silk"); };
+  const openSilkCalc = () => { navigateToPage("calc_silk"); };
   // Прямой переход в калькулятор термопечати (минуя экран выбора калькулятора).
-  const openTermoCalc = () => { setCalcChoiceOpen(false); navigateToPage("calc_termo"); };
+  const openTermoCalc = () => { navigateToPage("calc_termo"); };
+  const goHome = () => {
+    setMn(false);
+    setTxMenuOpen(false);
+    setSvcMenuOpen(false);
+    setInitialConstructorSelection(null);
+    setInitialTextileProduct(null);
+    setAc("Главная");
+    navigate("/", { replace: true, state: { backStack: [] } });
+    window.scrollTo(0, 0);
+  };
   // Возврат из калькулятора на страницу, с которой пришёл пользователь.
   const goBackFromCalc = () => {
-    setCalcChoiceOpen(false);
-    const backTarget = resolveBackTarget();
+    const backTarget = resolveBackTarget({ allowCalculator: true });
     if (backTarget) {
       navigate(backTarget.path, { state: backTarget.state });
       window.scrollTo(0, 0);
@@ -2013,7 +2031,6 @@ export default function App() {
 
   // Переключение между калькуляторами через вкладки/развилку.
   const switchCalc = (page) => {
-    setCalcChoiceOpen(false);
     navigateToPage(page);
   };
   const calcSwitcher = (active) => (
@@ -2024,7 +2041,7 @@ export default function App() {
   // Секции главной (Цены/Отзывы/Контакты) пока ведут на главную целиком.
   const goFromService = (s) => {
     if (s === "Работы") { navigate("/portfolio/"); return; }
-    navigate("/");
+    navigate("/", { replace: true, state: { backStack: [] } });
     setAc(s === "Главная" ? "Главная" : ac);
   };
 
@@ -2040,6 +2057,7 @@ export default function App() {
       <Suspense fallback={<div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#08080c", color: "#f0eef5", fontFamily: "'Outfit',sans-serif" }}>Загрузка конструктора…</div>}>
         <ConstructorRoute
         onBack={() => goBack("main")}
+        onGoHome={goHome}
         initialSelection={initialConstructorSelection}
         onClearInitialSelection={() => setInitialConstructorSelection(null)}
         onOpenProductDetails={({ model, densityLabel, color, size }) => {
@@ -2057,16 +2075,16 @@ export default function App() {
       {OVERLAYS}
     </>
   );
+  if (pg === "calc_choice") {
+    return <><CalculatorChoice onBack={goBackFromCalc} onGoHome={goHome} onChoose={switchCalc} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} />{OVERLAYS}</>;
+  }
   if (pg === "calc") {
-    if (calcChoiceOpen) {
-      return <><CalculatorChoice onBack={goBackFromCalc} onChoose={switchCalc} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} />{OVERLAYS}</>;
-    }
-    return <><CalcPage onBack={goBackFromCalc} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc")} />{OVERLAYS}</>;
+    return <><CalcPage onBack={goBackFromCalc} onGoHome={goHome} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc")} />{OVERLAYS}</>;
   }
   if (pg === "calc_silk") return (
     <>
       <Suspense fallback={<div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#08080c", color: "#f0eef5", fontFamily: "'Outfit',sans-serif" }}>Загрузка калькулятора…</div>}>
-        <SilkscreenCalcPage onBack={goBackFromCalc} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc_silk")} />
+        <SilkscreenCalcPage onBack={goBackFromCalc} onGoHome={goHome} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc_silk")} />
       </Suspense>
       {OVERLAYS}
     </>
@@ -2074,7 +2092,7 @@ export default function App() {
   if (pg === "calc_termo") return (
     <>
       <Suspense fallback={<div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#08080c", color: "#f0eef5", fontFamily: "'Outfit',sans-serif" }}>Загрузка калькулятора…</div>}>
-        <TermoprintCalcPage onBack={goBackFromCalc} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc_termo")} />
+        <TermoprintCalcPage onBack={goBackFromCalc} onGoHome={goHome} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc_termo")} />
       </Suspense>
       {OVERLAYS}
     </>
@@ -2082,12 +2100,12 @@ export default function App() {
   if (pg === "portfolio") return (
     <>
       <Suspense fallback={<div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#08080c", color: "#f0eef5", fontFamily: "'Outfit',sans-serif" }}>Загрузка портфолио…</div>}>
-        <PortfolioPage onBack={() => goBack("main")} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} />
+        <PortfolioPage onBack={() => goBack("main")} onGoHome={goHome} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} />
       </Suspense>
       {OVERLAYS}
     </>
   );
-  if (pg.startsWith("textile_")) return <><TextilePage type={pg.replace("textile_", "")} initialProduct={initialTextileProduct} onClearInitialProduct={() => setInitialTextileProduct(null)} onBack={() => goBack("main")} onNavigate={(t) => navigateToPage("textile_" + t)} onOpenConstructor={(selection) => { setInitialConstructorSelection(selection || null); navigateToPage("constructor"); }} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} />{OVERLAYS}</>;
+  if (pg.startsWith("textile_")) return <><TextilePage type={pg.replace("textile_", "")} initialProduct={initialTextileProduct} onClearInitialProduct={() => setInitialTextileProduct(null)} onBack={() => goBack("main")} onGoHome={goHome} onNavigate={(t) => navigateToPage("textile_" + t)} onOpenConstructor={(selection) => { setInitialConstructorSelection(selection || null); navigateToPage("constructor"); }} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} />{OVERLAYS}</>;
 
   if (pg.startsWith("seo_")) {
     const pageMeta = PAGES_BY_ID[pg.replace("seo_", "")];

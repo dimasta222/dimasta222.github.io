@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SERVICE_PHOTOS } from "../assets/servicePhotos.js";
 import { METER_PRICES, PRINT_FORMATS } from "../data/printFormats.js";
+import { SILK_FORMATS, SILK_TIERS } from "../data/silkscreenPrices.js";
 import ServicePageLayout from "./ServicePageLayout.jsx";
 import { DEFAULT_STEPS, SERVICE_CONTENT } from "./servicePagesContent.js";
 
@@ -248,7 +249,7 @@ function MiniTshirtFormatPreview({ label, size, color, maxWidth, maxHeight }) {
 }
 
 function DtfPriceShowcase({ formatRows = [], meterRows = [], note, onOpenCalculator }) {
-  const formatAccents = [accent, accent2, cyan, yellow, "#ff7675", "#55efc4"];
+  const formatAccent = accent;
   const meterAccent = accent;
   const formatSizes = formatRows.map((row) => {
     const match = String(row.sub || "").match(/(\d+)\D+(\d+)/);
@@ -276,11 +277,14 @@ function DtfPriceShowcase({ formatRows = [], meterRows = [], note, onOpenCalcula
               <span style={{ width: 8, height: 8, borderRadius: 999, background: accent }} />
               цена за принт + прижим
             </div>
+            <div style={{ padding: "8px 12px", borderRadius: 999, border: `1px solid ${accent}55`, background: `linear-gradient(135deg,${accent}1f,rgba(255,255,255,.035))`, color: "rgba(240,238,245,.78)", fontSize: 12, fontWeight: 700, letterSpacing: .3 }}>
+              Цены указаны при заказе от 5 шт.
+            </div>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,150px),1fr))", gap: 1, background: "rgba(255,255,255,.06)" }}>
             {formatRows.map((row, index) => {
-              const color = formatAccents[index % formatAccents.length];
+              const color = formatAccent;
               return (
                 <div key={row.label} style={{ minHeight: 292, padding: 18, background: "rgba(8,8,12,.94)", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16 }}>
                   <div style={{ height: 168, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 16, background: "linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))", border: "1px solid rgba(255,255,255,.055)", overflow: "hidden", padding: 6 }}>
@@ -295,6 +299,7 @@ function DtfPriceShowcase({ formatRows = [], meterRows = [], note, onOpenCalcula
                       <span style={{ fontSize: 30, fontWeight: 700, color }}>{row.value}</span>
                       <span style={{ fontSize: 15, color: "rgba(240,238,245,.52)" }}>₽</span>
                     </div>
+                    <div style={{ marginTop: 5, fontSize: 12, fontWeight: 600, color: "rgba(240,238,245,.42)" }}>при заказе от 5 шт.</div>
                   </div>
                 </div>
               );
@@ -447,6 +452,44 @@ function DtfConstructorPromo({ onOpenConstructor }) {
   );
 }
 
+function TermoPriceCta({ onOpenCalculator }) {
+  const stats = [
+    { label: "формат", value: "A6-A3" },
+    { label: "цвета", value: "1-3" },
+    { label: "тираж", value: "от 1 шт." },
+  ];
+
+  return (
+    <div style={{ height: "100%", minHeight: 360, borderRadius: 28, border: "1px solid rgba(255,255,255,.08)", background: `radial-gradient(circle at 16% 12%,${accent}24,transparent 34%), radial-gradient(circle at 92% 8%,${yellow}18,transparent 28%), linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02))`, padding: "24px clamp(18px,3vw,28px)", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 20, boxShadow: "0 24px 70px rgba(0,0,0,.18)" }}>
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: accent, marginBottom: 10 }}>быстрый расчет</div>
+        <div style={{ fontSize: "clamp(22px,3vw,30px)", fontWeight: 600, lineHeight: 1.15, marginBottom: 10 }}>Посчитайте термопечать под свой тираж</div>
+        <div style={{ fontSize: 15, fontWeight: 300, color: "rgba(240,238,245,.62)", lineHeight: 1.6, maxWidth: 620 }}>Выберите формат, количество цветов и тираж. Калькулятор быстро покажет ориентир по стоимости, чтобы было проще спланировать заказ без ручного пересчета по таблице.</div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
+          {stats.map((item) => (
+            <div key={item.label} style={{ padding: "9px 12px", borderRadius: 14, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.045)" }}>
+              <span style={{ display: "block", fontSize: 10, letterSpacing: 1.2, textTransform: "uppercase", color: "rgba(240,238,245,.42)", marginBottom: 3 }}>{item.label}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#f0eef5" }}>{item.value}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
+          {["Подходит для номеров, фамилий и простых логотипов", "Можно быстро сравнить форматы и тиражи", "После расчета проще оформить заказ"].map((item) => (
+            <div key={item} style={{ display: "grid", gridTemplateColumns: "22px 1fr", gap: 10, alignItems: "start", color: "rgba(240,238,245,.62)", fontSize: 13, lineHeight: 1.45 }}>
+              <span style={{ width: 22, height: 22, borderRadius: 999, display: "grid", placeItems: "center", background: `${accent}22`, color: accent, fontSize: 13, fontWeight: 900 }}>✓</span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button type="button" onClick={onOpenCalculator} style={{ width: "100%", background: `linear-gradient(135deg,${accent},${accent2})`, border: "none", color: "#fff", padding: "14px 18px", borderRadius: 50, fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", boxShadow: `0 18px 42px ${accent}26` }}>Рассчитать сумму заказа</button>
+    </div>
+  );
+}
+
 function MatrixPriceTable({ title, subtitle, columns = [], rows = [] }) {
   return (
     <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.02)" }}>
@@ -479,11 +522,15 @@ function MatrixPriceTable({ title, subtitle, columns = [], rows = [] }) {
 function TshirtPrintPreview({ formatName }) {
   // Наглядный масштаб: ширина корпуса футболки 180px ≈ 50 см груди → 3.6px/см.
   const PPC = 3.6;
+  const printGradient = `linear-gradient(135deg, ${accent}, #ff5fa2)`;
   const sizes = {
-    A4: { w: 20, h: 30, dims: "20 × 30 см", gradient: `linear-gradient(135deg, ${accent}, #ff5fa2)` },
-    A3: { w: 29.7, h: 42, dims: "30 × 42 см", gradient: `linear-gradient(135deg, ${accent2}, #a18bff)` },
+    A6: { w: 10, h: 15, dims: "10 × 15 см", gradient: printGradient },
+    A5: { w: 15, h: 20, dims: "15 × 20 см", gradient: printGradient },
+    A4: { w: 20, h: 30, dims: "20 × 30 см", gradient: printGradient },
+    A3: { w: 30, h: 40, dims: "30 × 40 см", gradient: printGradient },
   };
-  const key = formatName && formatName.toUpperCase().includes("A3") ? "A3" : "A4";
+  const normalizedName = String(formatName || "").toUpperCase();
+  const key = ["A6", "A5", "A4", "A3"].find((name) => normalizedName.includes(name)) || "A4";
   const size = sizes[key];
   const rectW = size.w * PPC;
   const rectH = size.h * PPC;
@@ -511,7 +558,7 @@ function TshirtPrintPreview({ formatName }) {
         {/* Горловина */}
         <path d="M105 40 C112 64 142 70 150 70 C158 70 188 64 195 40" fill="none" stroke="rgba(255,255,255,.16)" strokeWidth="2" />
         {/* Область печати */}
-        <rect x={rectX} y={top} width={rectW} height={rectH} rx="3" fill={key === "A3" ? "rgba(108,92,231,.16)" : "rgba(232,67,147,.16)"} stroke={key === "A3" ? accent2 : accent} strokeWidth="2" strokeDasharray="6 5" />
+        <rect x={rectX} y={top} width={rectW} height={rectH} rx="3" fill="rgba(232,67,147,.16)" stroke={accent} strokeWidth="2" strokeDasharray="6 5" />
         <text x={cx} y={top + rectH / 2 - 6} textAnchor="middle" fill="#fff" fontSize="15" fontWeight="600" fontFamily="inherit">{key}</text>
         <text x={cx} y={top + rectH / 2 + 14} textAnchor="middle" fill="rgba(255,255,255,.75)" fontSize="11" fontFamily="inherit">{size.dims}</text>
       </svg>
@@ -799,11 +846,13 @@ export default function ServiceContentPage(props) {
 
   const steps = content.steps || DEFAULT_STEPS;
   const priceMode = content.prices?.mode || "format";
-  const priceNote = content.prices?.note;
+  const priceNote = page?.id === "shelkografiya"
+    ? "Цены указаны за нанесение одного принта методом шелкографии на одно изделие. Форматы и тиражные пороги совпадают с оптовым калькулятором: A6, A5, A4, A3 и тиражи от 30 до 1000 шт. Текстиль, дополнительные эффекты, тёмная ткань и термопресс считаются отдельно в калькуляторе."
+    : content.prices?.note;
   const customPriceTables = content.prices?.tables || [];
   const priceLayout = content.prices?.layout;
-  const priceFormats = content.prices?.formats || [];
-  const priceTiers = content.prices?.tiers || [];
+  const priceFormats = page?.id === "shelkografiya" ? SILK_FORMATS : (content.prices?.formats || []);
+  const priceTiers = page?.id === "shelkografiya" ? SILK_TIERS : (content.prices?.tiers || []);
   const examples = content.examples || [];
   const notes = content.notes || [];
   const visual = { ...DEFAULT_VISUAL, ...(PAGE_VISUALS[page?.id] || {}), ...(content.visual || {}) };
@@ -823,6 +872,7 @@ export default function ServiceContentPage(props) {
   const formatRows = FORMAT_ROWS.map((r) => ({ label: r.name, sub: r.size, value: r.price }));
   const meterRows = METER_PRICES.map((r) => ({ label: r.range, value: r.price, rawValue: true }));
   const isTechPage = ["dtf", "shelkografiya", "termopechat", "sublimaciya"].includes(page?.id);
+  const isTermoPricePage = page?.id === "termopechat";
 
   return (
     <ServicePageLayout {...props}>
@@ -928,6 +978,13 @@ export default function ServiceContentPage(props) {
             {priceMode === "custom" ? (
               priceLayout === "tiers" ? (
                 <TierPriceTable formats={priceFormats} tiers={priceTiers} subtitle={content.prices?.subtitle} />
+              ) : isTermoPricePage ? (
+                <div className="termo-price-layout" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.65fr) minmax(280px,.75fr)", gap: 18, alignItems: "stretch" }}>
+                  <div className="termo-price-tables" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(min(100%,320px),1fr))", gap: 18 }}>
+                    {customPriceTables.map((table) => <MatrixPriceTable key={table.title} title={table.title} subtitle={table.subtitle} columns={table.columns} rows={table.rows} />)}
+                  </div>
+                  <TermoPriceCta onOpenCalculator={props.onOpenCalculator} />
+                </div>
               ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 18 }}>
                   {customPriceTables.map((table) => <MatrixPriceTable key={table.title} title={table.title} subtitle={table.subtitle} columns={table.columns} rows={table.rows} />)}
@@ -952,7 +1009,7 @@ export default function ServiceContentPage(props) {
 
             {priceNote && priceMode !== "dtf" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
 
-            {!content.prices?.hideActions && (
+            {!content.prices?.hideActions && !isTermoPricePage && (
               priceMode === "dtf" ? (
                 <DtfConstructorPromo onOpenConstructor={props.onOpenConstructor} />
               ) : (

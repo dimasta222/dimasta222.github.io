@@ -7,4 +7,9 @@
   .shelko-price-grid {
     grid-template-columns: 1fr !important;
   }
+
+  .termo-price-layout,
+  .termo-price-tables {
+    grid-template-columns: 1fr !important;
+  }
 }

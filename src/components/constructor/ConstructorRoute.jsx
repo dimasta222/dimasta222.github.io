@@ -170,7 +170,7 @@ function ConstructorRuntimeGuard({ children }) {
   return children;
 }
 
-export default function ConstructorRoute({ onBack, onOpenProductDetails, initialSelection, onClearInitialSelection }) {
+export default function ConstructorRoute({ onBack, onGoHome, onOpenProductDetails, initialSelection, onClearInitialSelection }) {
   useEffect(() => {
     if (initialSelection && onClearInitialSelection) {
       onClearInitialSelection();
@@ -180,7 +180,7 @@ export default function ConstructorRoute({ onBack, onOpenProductDetails, initial
   return (
     <ConstructorRuntimeGuard>
       <ConstructorErrorBoundary>
-        <ConstructorPage onBack={onBack} products={CONSTRUCTOR_PRODUCTS} onOpenProductDetails={onOpenProductDetails} initialSelection={initialSelection} />
+        <ConstructorPage onBack={onBack} onGoHome={onGoHome} products={CONSTRUCTOR_PRODUCTS} onOpenProductDetails={onOpenProductDetails} initialSelection={initialSelection} />
       </ConstructorErrorBoundary>
     </ConstructorRuntimeGuard>
   );

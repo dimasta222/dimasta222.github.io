@@ -112,7 +112,7 @@ function SectionGrid({ title, items, onImageClick }) {
   );
 }
 
-export default function PortfolioCatalogPage({ onBack, onOpenCookiePolicy }) {
+export default function PortfolioCatalogPage({ onBack, onGoHome, onOpenCookiePolicy }) {
   const [activeCategory, setActiveCategory] = useState("Все");
   const [lightboxState, setLightboxState] = useState(null);
 
@@ -182,10 +182,14 @@ export default function PortfolioCatalogPage({ onBack, onOpenCookiePolicy }) {
     >
       <style>{STYLES}</style>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 5% 80px", display: "grid", gap: 36 }}>
-        <button type="button" onClick={onBack} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 12, background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-          <LogoMini />
-        </button>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+          <button type="button" onClick={onBack} aria-label="Назад" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          </button>
+          <button type="button" onClick={onGoHome} aria-label="На главную" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <LogoMini />
+          </button>
+        </div>
 
         <section style={{ display: "grid", gap: 22 }}>
           <div style={{ display: "grid", gap: 12, maxWidth: 760, margin: "0 auto", textAlign: "center" }}>

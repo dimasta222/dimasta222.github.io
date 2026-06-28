@@ -585,7 +585,7 @@ function ShapeCornerPopover({ shapeCornerRoundness, onShapeCornerRoundnessChange
   );
 }
 
-export default function ConstructorPage({ onBack, products, onOpenProductDetails, initialSelection }) {
+export default function ConstructorPage({ onBack, onGoHome, products, onOpenProductDetails, initialSelection }) {
   const [activeTextMetricsCm, setActiveTextMetricsCm] = useState(null);
   const [runtimeTextLayerBoundsBySide, setRuntimeTextLayerBoundsBySide] = useState({ front: {}, back: {} });
   const {
@@ -1272,10 +1272,14 @@ export default function ConstructorPage({ onBack, products, onOpenProductDetails
 
       <div className="page-shell" style={{ maxWidth: 1680, margin: "0 auto", padding: "28px 16px 56px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button type="button" onClick={onBack} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 12, background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-            <LogoMini />
-          </button>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+            <button type="button" onClick={onBack} aria-label="Назад" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            </button>
+            <button type="button" onClick={onGoHome} aria-label="На главную" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+              <LogoMini />
+            </button>
+          </div>
           {layers.length > 0 && (
             <button type="button" onClick={resetConstructor} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,80,80,.08)", border: "1px solid rgba(255,80,80,.2)", borderRadius: 10, cursor: "pointer", color: "#ff6b6b", fontSize: 12, fontWeight: 500, fontFamily: "'Outfit',sans-serif", padding: "7px 14px", transition: "all .3s" }} onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,80,80,.15)"; e.currentTarget.style.borderColor = "rgba(255,80,80,.4)"; }} onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,80,80,.08)"; e.currentTarget.style.borderColor = "rgba(255,80,80,.2)"; }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 22v-6h6"/></svg>

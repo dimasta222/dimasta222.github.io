@@ -54,7 +54,7 @@ function buildModsLabel(it) {
   return parts.join(", ");
 }
 
-export default function SilkscreenCalcPage({ onBack, onOpenCookiePolicy, switcher }) {
+export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
   const [items, setItems] = useState(() => {
     const s = loadState();
     if (Array.isArray(s?.items) && s.items.length > 0) return s.items;
@@ -144,10 +144,14 @@ export default function SilkscreenCalcPage({ onBack, onOpenCookiePolicy, switche
       `}</style>
 
       <div className="page-shell-narrow" style={{ maxWidth: 1480, margin: "0 auto", padding: "28px 4% 0" }}>
-        <button type="button" onClick={onBack} style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 12, background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-          <LogoMini />
-        </button>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+          <button type="button" onClick={onBack} aria-label="Назад" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84393" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          </button>
+          <button type="button" onClick={onGoHome} aria-label="На главную" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", color: "inherit", padding: 0, font: "inherit" }}>
+            <LogoMini />
+          </button>
+        </div>
 
         <div className="silk-head" style={{ textAlign: "center", margin: "36px 0 24px" }}>
           <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: 4, color: "#e84393", textTransform: "uppercase" }}>Оптовым клиентам</span>
