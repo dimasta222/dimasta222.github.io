@@ -491,25 +491,34 @@ function TermoPriceCta({ onOpenCalculator }) {
 }
 
 function MatrixPriceTable({ title, subtitle, columns = [], rows = [] }) {
+  const [isMobileTable, setIsMobileTable] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobileTable(window.innerWidth < 640);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.02)" }}>
-      <div style={{ padding: "16px 18px", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-        <div style={{ fontSize: 16, fontWeight: 600 }}>{title}</div>
-        {subtitle && <div style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.55)", marginTop: 4 }}>{subtitle}</div>}
+      <div style={{ padding: isMobileTable ? "12px 14px" : "16px 18px", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ fontSize: isMobileTable ? 15 : 16, fontWeight: 600 }}>{title}</div>
+        {subtitle && <div style={{ fontSize: isMobileTable ? 12 : 13, fontWeight: 300, color: "rgba(240,238,245,.55)", marginTop: 4 }}>{subtitle}</div>}
       </div>
       <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: isMobileTable ? 12 : 14 }}>
           <thead>
             <tr>
-              <th style={{ textAlign: "left", padding: "12px 16px", color: "rgba(240,238,245,.55)", fontWeight: 500 }}>Цветность</th>
-              {columns.map((col) => <th key={col} style={{ textAlign: "left", padding: "12px 16px", color: "rgba(240,238,245,.55)", fontWeight: 500, whiteSpace: "nowrap" }}>{col}</th>)}
+              <th style={{ textAlign: "left", padding: isMobileTable ? "10px 12px" : "12px 16px", color: "rgba(240,238,245,.55)", fontWeight: 500 }}>Цветность</th>
+              {columns.map((col) => <th key={col} style={{ textAlign: "left", padding: isMobileTable ? "10px 12px" : "12px 16px", color: "rgba(240,238,245,.55)", fontWeight: 500, whiteSpace: "nowrap" }}>{col}</th>)}
             </tr>
           </thead>
           <tbody>
             {rows.map((row, i) => (
               <tr key={row.label} style={{ background: i % 2 ? "rgba(255,255,255,.02)" : "transparent" }}>
-                <td style={{ padding: "12px 16px", fontWeight: 500 }}>{row.label}</td>
-                {row.values.map((value, idx) => <td key={idx} style={{ padding: "12px 16px", whiteSpace: "nowrap" }}>{value}</td>)}
+                <td style={{ padding: isMobileTable ? "10px 12px" : "12px 16px", fontWeight: 500 }}>{row.label}</td>
+                {row.values.map((value, idx) => <td key={idx} style={{ padding: isMobileTable ? "10px 12px" : "12px 16px", whiteSpace: "nowrap" }}>{value}</td>)}
               </tr>
             ))}
           </tbody>
@@ -657,7 +666,7 @@ function VideoMockup({ visual, compact, photo, video, videoCaption }) {
   const caption = captions[capIdx];
 
   return (
-    <div style={{ position: "relative", width: "100%", height: compact ? 300 : 460, minHeight: compact ? 250 : 360, borderRadius: 28, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.03)", boxShadow: "0 26px 80px rgba(0,0,0,.35)" }}>
+    <div style={{ position: "relative", width: "100%", height: compact ? (typeof window !== "undefined" && window.innerWidth < 640 ? 240 : 300) : (typeof window !== "undefined" && window.innerWidth < 640 ? 280 : 460), minHeight: compact ? (typeof window !== "undefined" && window.innerWidth < 640 ? 200 : 250) : (typeof window !== "undefined" && window.innerWidth < 640 ? 220 : 360), borderRadius: 28, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.03)", boxShadow: "0 26px 80px rgba(0,0,0,.35)" }}>
       <video
         ref={videoRef}
         src={video}
@@ -841,6 +850,14 @@ export default function ServiceContentPage(props) {
   const page = props.page;
   const content = SERVICE_CONTENT[page?.id];
   const faq = page?.faq || [];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 900);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (!content) return <ServicePageLayout {...props} />;
 
@@ -876,7 +893,7 @@ export default function ServiceContentPage(props) {
 
   return (
     <ServicePageLayout {...props}>
-      <section className="section-shell" style={{ padding: "56px 5% 46px" }}>
+      <section className="section-shell" style={{ padding: isMobile ? "40px 5% 36px" : "56px 5% 46px" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <nav style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginBottom: 20 }} aria-label="Хлебные крошки">
             <Link to="/" style={{ color: "rgba(240,238,245,.45)", textDecoration: "none" }}>Главная</Link>
@@ -913,7 +930,7 @@ export default function ServiceContentPage(props) {
       <VisualSlider visual={visual} examples={examples} slides={photoSlides} />
       {isTechPage && <TechnologyFit pageId={page.id} />}
 
-      <section className="section-shell" style={{ padding: "40px 5%" }}>
+      <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Eyebrow>Как заказать</Eyebrow>
           <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>Три простых <span style={{ fontWeight: 600 }}>шага</span></h2>
@@ -929,7 +946,7 @@ export default function ServiceContentPage(props) {
         </div>
       </section>
 
-      <section className="section-shell" style={{ padding: "40px 5%" }}>
+      <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Eyebrow>{featureEyebrow}</Eyebrow>
           <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>{featureTitle} <span style={{ fontWeight: 600 }}>{featureTitleAccent}</span></h2>
@@ -946,7 +963,7 @@ export default function ServiceContentPage(props) {
       </section>
 
       {examples.length > 0 && (
-        <section className="section-shell" style={{ padding: "40px 5%" }}>
+        <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
           <div style={{ maxWidth: 1080, margin: "0 auto" }}>
             <Eyebrow>Примеры</Eyebrow>
             <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>Где это особенно <span style={{ fontWeight: 600 }}>подходит</span></h2>
@@ -958,7 +975,7 @@ export default function ServiceContentPage(props) {
       )}
 
       {notes.length > 0 && (
-        <section className="section-shell" style={{ padding: "40px 5%" }}>
+        <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
           <div style={{ maxWidth: 1080, margin: "0 auto" }}>
             <Eyebrow>Важно знать</Eyebrow>
             <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>Подберём технологию <span style={{ fontWeight: 600 }}>под задачу</span></h2>
@@ -970,7 +987,7 @@ export default function ServiceContentPage(props) {
       )}
 
       {(priceMode !== "none" || customPriceTables.length > 0 || priceNote) && (
-        <section className="section-shell" style={{ padding: "40px 5%" }}>
+        <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
           <div style={{ maxWidth: 1080, margin: "0 auto" }}>
             <Eyebrow>Цены</Eyebrow>
             <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>{content.prices?.title || (priceMode === "dtf" ? "Стоимость DTF-печати" : "Стоимость по размеру принта")}</h2>
@@ -979,8 +996,8 @@ export default function ServiceContentPage(props) {
               priceLayout === "tiers" ? (
                 <TierPriceTable formats={priceFormats} tiers={priceTiers} subtitle={content.prices?.subtitle} />
               ) : isTermoPricePage ? (
-                <div className="termo-price-layout" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.65fr) minmax(280px,.75fr)", gap: 18, alignItems: "stretch" }}>
-                  <div className="termo-price-tables" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(min(100%,320px),1fr))", gap: 18 }}>
+                <div className="termo-price-layout" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "minmax(0,1.65fr) minmax(280px,.75fr)", gap: 18, alignItems: "stretch" }}>
+                  <div className="termo-price-tables" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2,minmax(min(100%,320px),1fr))", gap: 18 }}>
                     {customPriceTables.map((table) => <MatrixPriceTable key={table.title} title={table.title} subtitle={table.subtitle} columns={table.columns} rows={table.rows} />)}
                   </div>
                   <TermoPriceCta onOpenCalculator={props.onOpenCalculator} />
