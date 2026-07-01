@@ -698,15 +698,20 @@ function VideoMockup({ visual, compact, photo, video, videoCaption }) {
 
 function ProductMockup({ visual, compact = false, photo, video, videoCaption }) {
   const [c1, c2] = visual.tone || [accent, accent2];
+  const [photoFailed, setPhotoFailed] = useState(false);
+
+  useEffect(() => {
+    setPhotoFailed(false);
+  }, [photo]);
 
   if (video) {
     return <VideoMockup visual={visual} compact={compact} photo={photo} video={video} videoCaption={videoCaption} />;
   }
 
-  if (photo) {
+  if (photo && !photoFailed) {
     return (
       <div style={{ position: "relative", minHeight: compact ? 250 : 360, borderRadius: 28, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.03)", boxShadow: "0 26px 80px rgba(0,0,0,.35)" }}>
-        <img src={photo} alt={visual.caption || visual.product} style={{ width: "100%", height: "100%", minHeight: compact ? 250 : 360, objectFit: "cover", display: "block" }} />
+        <img src={photo} alt={visual.caption || visual.product} onError={() => setPhotoFailed(true)} style={{ width: "100%", height: "100%", minHeight: compact ? 250 : 360, objectFit: "cover", display: "block" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(8,10,16,.06), rgba(8,10,16,.08) 45%, rgba(8,10,16,.32))" }} />
       </div>
     );
@@ -846,6 +851,240 @@ function TechnologyFit({ pageId }) {
   );
 }
 
+function UrgentPrintGuide({ guide }) {
+  if (!guide) return null;
+
+  const checklist = guide.checklist || [];
+  const fastItems = guide.fastItems || [];
+  const limits = guide.limits || [];
+
+  return (
+    <section className="section-shell" style={{ padding: "40px 5%" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <Eyebrow>{guide.eyebrow || "Срочный заказ"}</Eyebrow>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 28, alignItems: "start", marginTop: 12 }}>
+          <div>
+            <h2 style={{ fontSize: "clamp(24px,3.5vw,38px)", fontWeight: 200, margin: "0 0 14px", lineHeight: 1.18 }}>
+              {guide.title} <span style={{ fontWeight: 600 }}>{guide.titleAccent}</span>
+            </h2>
+            <p style={{ fontSize: 15, fontWeight: 300, color: "rgba(240,238,245,.62)", lineHeight: 1.7, margin: 0 }}>{guide.text}</p>
+          </div>
+
+          <div style={{ borderRadius: 26, border: `1px solid ${accent}33`, background: `radial-gradient(circle at 12% 0%,${accent}24,transparent 36%), linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018))`, padding: 22 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 16 }}>
+              <div style={{ fontSize: 18, fontWeight: 700 }}>Что прислать сразу</div>
+              <div style={{ padding: "7px 10px", borderRadius: 999, background: `${accent}20`, color: accent, fontSize: 12, fontWeight: 800 }}>ускоряет заказ</div>
+            </div>
+            <div style={{ display: "grid", gap: 10 }}>
+              {checklist.map((item) => (
+                <div key={item} style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 10, alignItems: "start", color: "rgba(240,238,245,.68)", fontSize: 14, lineHeight: 1.5 }}>
+                  <span style={{ width: 24, height: 24, borderRadius: 999, display: "grid", placeItems: "center", background: `${accent}22`, color: accent, fontSize: 13, fontWeight: 900 }}>✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,240px),1fr))", gap: 16, marginTop: 22 }}>
+          {fastItems.map((item) => (
+            <div key={item.t} style={{ borderRadius: 18, padding: "18px 20px", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.025)" }}>
+              <div style={{ color: accent, fontSize: 12, fontWeight: 800, letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 8 }}>{item.k}</div>
+              <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 8 }}>{item.t}</div>
+              <div style={{ fontSize: 14, color: "rgba(240,238,245,.56)", lineHeight: 1.5 }}>{item.d}</div>
+            </div>
+          ))}
+        </div>
+
+        {limits.length > 0 && (
+          <div style={{ marginTop: 18, borderRadius: 20, border: `1px solid ${yellow}35`, background: `linear-gradient(135deg,${yellow}12,rgba(255,255,255,.018))`, padding: "18px 20px", color: "rgba(240,238,245,.66)", fontSize: 14, lineHeight: 1.65, display: "grid", gridTemplateColumns: "34px 1fr", gap: 12, alignItems: "start" }}>
+            <span aria-hidden="true" style={{ width: 34, height: 34, borderRadius: 999, display: "grid", placeItems: "center", background: `${yellow}22`, color: yellow, border: `1px solid ${yellow}66`, fontSize: 20, fontWeight: 900, lineHeight: 1, boxShadow: `0 0 22px ${yellow}18` }}>!</span>
+            <span>
+              <strong style={{ color: "#f0eef5", fontWeight: 700 }}>Важно для срочной печати: </strong>
+              {limits.join(" ")}
+            </span>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function FilmEffectIcon({ type, color = accent, image }) {
+  const hasCustomIcon = Boolean(image);
+  const customIconSize = {
+    puff: { width: 58, height: 48 },
+    flock: { width: 48, height: 48 },
+  };
+  const imageSize = customIconSize[type] || { width: 56, height: 56 };
+  const common = { fill: "none", stroke: color, strokeWidth: 2.4, strokeLinecap: "round", strokeLinejoin: "round" };
+  const icons = {
+    fluor: (
+      <>
+        <path {...common} d="M42 8 20 42h16l-6 30 26-39H39z" />
+      </>
+    ),
+    puff: (
+      <>
+        <path {...common} d="M21 53c-8 0-14-5-14-12 0-6 4-11 10-12-1-7 5-13 12-13 3 0 6 1 8 3 2-7 8-11 16-11 9 0 16 7 16 16 0 1 0 2-.2 3.2C75 29 79 34 79 41c0 7-6 12-14 12-3 7-10 11-18 8-4 5-12 5-16 0-5 2-11-1-10-8z" />
+      </>
+    ),
+    flock: (
+      <>
+        <path {...common} d="M24 62 15 27c8-11 18-15 29-15s21 4 29 15l-9 35H24z" />
+        <path {...common} d="M37 60V26M51 60V26M28 34c10 7 22 7 32 0" opacity=".55" />
+      </>
+    ),
+    metallic: (
+      <>
+        <path {...common} d="M40 8c5 17 12 24 29 30-17 6-24 13-29 30-6-17-13-24-30-30 17-6 24-13 30-30z" />
+      </>
+    ),
+    glitter: (
+      <>
+        <path {...common} d="M30 15c4 11 9 16 20 20-11 4-16 9-20 20-4-11-9-16-20-20 11-4 16-9 20-20z" />
+        <path {...common} d="M57 8c2 7 5 10 12 12-7 2-10 5-12 12-2-7-5-10-12-12 7-2 10-5 12-12zM57 47c2 6 5 9 11 11-6 2-9 5-11 11-2-6-5-9-11-11 6-2 9-5 11-11z" opacity=".78" />
+      </>
+    ),
+    holographic: (
+      <>
+        <path {...common} d="M40 10 68 28 58 64H22L12 28z" />
+        <path {...common} d="M12 28h56M40 10 28 28l12 36 12-36zM22 64l18-36 18 36M28 28l-6 36M52 28l6 36" opacity=".55" />
+      </>
+    ),
+    reflective: (
+      <>
+        <path {...common} d="M40 9c10 8 20 10 30 11v16c0 18-11 29-30 36-19-7-30-18-30-36V20c10-1 20-3 30-11z" />
+        <path {...common} d="M24 32c8 3 24 3 32 0M24 43c8 4 24 4 32 0" opacity=".48" />
+      </>
+    ),
+    foil: (
+      <>
+        <path {...common} d="M20 58V24c0-9 7-16 16-16h23v50H20z" />
+        <ellipse {...common} cx="36" cy="24" rx="16" ry="16" />
+        <path {...common} d="M59 22c10 8 12 20 5 36M28 58h42" opacity=".55" />
+      </>
+    ),
+  };
+
+  return (
+    <div style={{ position: "relative", width: 68, height: 58, display: "grid", placeItems: "center" }}>
+      {!hasCustomIcon && (
+        <svg viewBox="0 0 80 80" width="56" height="56" aria-hidden="true" style={{ filter: `drop-shadow(0 0 10px ${color}66)` }}>
+          {icons[type] || icons.metallic}
+        </svg>
+      )}
+      {image && (
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          onError={(event) => { event.currentTarget.style.display = "none"; }}
+          style={{ position: "absolute", left: "50%", top: "50%", width: imageSize.width, height: imageSize.height, transform: "translate(-50%,-50%)", objectFit: "contain", filter: `drop-shadow(0 0 12px ${color}70)` }}
+        />
+      )}
+    </div>
+  );
+}
+
+function FilmSample({ item, onOpen }) {
+  const canOpen = Boolean(item.image && onOpen);
+  const styles = {
+    fluor: { background: "linear-gradient(135deg,#d7ff00,#72ff00)", boxShadow: "inset 0 0 24px rgba(255,255,255,.22)" },
+    puff: { background: "radial-gradient(circle at 30% 25%,#fff,rgba(255,255,255,.8) 28%,#b8b8b8 62%,#646464)", boxShadow: "inset -10px -12px 22px rgba(0,0,0,.35)" },
+    flock: { background: "radial-gradient(circle at 28% 24%,rgba(255,255,255,.3),transparent 26%), linear-gradient(135deg,#6fa31f,#2f5c13)", filter: "contrast(1.08)" },
+    metallic: { background: "linear-gradient(120deg,#5b3212,#f7d47a 24%,#8d551e 44%,#fff1a8 62%,#6c3915)", boxShadow: "inset 0 0 30px rgba(255,255,255,.18)" },
+    glitter: { background: "radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px), radial-gradient(circle at 70% 55%,#fff 0 1px,transparent 2px), linear-gradient(135deg,#ff2db6,#7d1a8c)", backgroundSize: "16px 16px,22px 22px,100% 100%" },
+    holographic: { background: "linear-gradient(120deg,#ff6b6b,#ffd93d,#6bff95,#4d96ff,#b66dff,#ff6bcb)", boxShadow: "inset 0 0 24px rgba(255,255,255,.24)" },
+    reflective: { background: "linear-gradient(135deg,#2b2b2b,#f4f4f4 48%,#6d6d6d 52%,#ffffff)", boxShadow: "inset 0 0 18px rgba(255,255,255,.3)" },
+    foil: { background: "linear-gradient(120deg,#3a0a4f,#d96cff 24%,#5c1680 44%,#f1b6ff 62%,#2d063c)", boxShadow: "inset 0 0 28px rgba(255,255,255,.2)" },
+  };
+
+  const handleKeyDown = (event) => {
+    if (!canOpen) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onOpen();
+    }
+  };
+
+  return (
+    <div
+      onClick={canOpen ? onOpen : undefined}
+      onKeyDown={handleKeyDown}
+      role={canOpen ? "button" : undefined}
+      tabIndex={canOpen ? 0 : undefined}
+      aria-label={canOpen ? `Увеличить фото: ${item.t}` : undefined}
+      style={{ height: 150, borderRadius: 16, overflow: "hidden", position: "relative", background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.08)", cursor: canOpen ? "zoom-in" : "default", outline: "none" }}
+    >
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.26))" }} />
+      <div style={{ position: "absolute", left: -18, right: -18, bottom: -8, height: 70, transform: "rotate(-8deg)", borderRadius: 14, ...(styles[item.type] || styles.metallic) }} />
+      <div style={{ position: "absolute", left: 18, bottom: 22, fontSize: 26, fontWeight: 900, letterSpacing: 1, color: "#fff", textShadow: "0 4px 18px rgba(0,0,0,.55)" }}>FUTURE</div>
+      {item.image && (
+        <img
+          src={item.image}
+          alt={item.t}
+          loading="lazy"
+          onError={(event) => { event.currentTarget.style.display = "none"; }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      )}
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 20% 20%,rgba(255,255,255,.14),transparent 26%)", pointerEvents: "none" }} />
+      {canOpen && (
+        <div style={{ position: "absolute", right: 8, bottom: 8, padding: "3px 5px", borderRadius: 8, background: "rgba(7,8,14,.72)", border: "1px solid rgba(255,255,255,.16)", color: "rgba(255,255,255,.86)", fontSize: 6, fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase", pointerEvents: "none", backdropFilter: "blur(10px)" }}>
+          Увеличить
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ThermoFilmTypes({ block }) {
+  const [activeFilmImage, setActiveFilmImage] = useState(null);
+
+  if (!block?.items?.length) return null;
+
+  return (
+    <section className="section-shell" style={{ padding: "40px 5%" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <Eyebrow>{block.eyebrow || "Виды плёнок"}</Eyebrow>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 24, alignItems: "end", flexWrap: "wrap", marginTop: 12, marginBottom: 24 }}>
+          <div style={{ maxWidth: 760 }}>
+            <h2 style={{ fontSize: "clamp(24px,3.5vw,38px)", fontWeight: 200, margin: "0 0 12px", lineHeight: 1.18 }}>{block.title} <span style={{ fontWeight: 600 }}>{block.titleAccent}</span></h2>
+            <p style={{ fontSize: 15, fontWeight: 300, color: "rgba(240,238,245,.62)", lineHeight: 1.7, margin: 0 }}>{block.text}</p>
+          </div>
+          <div style={{ padding: "10px 14px", borderRadius: 999, border: `1px solid ${accent}44`, background: `${accent}14`, color: "rgba(240,238,245,.72)", fontSize: 13, fontWeight: 700 }}>8 эффектов для одежды</div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,205px),1fr))", gap: 14 }}>
+          {block.items.map((item) => (
+            <article key={item.t} style={{ minHeight: 330, borderRadius: 22, border: `1px solid ${accent}55`, background: "linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012))", boxShadow: `0 0 22px ${accent}13, inset 0 0 0 1px rgba(255,255,255,.035)`, padding: 14, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 12, overflow: "hidden" }}>
+              <div>
+                <div style={{ height: 54, display: "grid", placeItems: "center", marginBottom: 6 }}>
+                  <FilmEffectIcon type={item.type} color={item.color || accent} image={item.iconImage} />
+                </div>
+                <h3 style={{ fontSize: 20, fontWeight: 800, lineHeight: 1.1, margin: "0 0 8px", textAlign: "center" }}>{item.t}</h3>
+                <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.62)", lineHeight: 1.42, margin: 0, textAlign: "center" }}>{item.d}</p>
+              </div>
+              <FilmSample item={item} onOpen={item.image ? () => setActiveFilmImage({ src: item.image, alt: item.t }) : undefined} />
+            </article>
+          ))}
+        </div>
+
+        {block.note && (
+          <div style={{ marginTop: 16, borderRadius: 18, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.025)", padding: "14px 16px", color: "rgba(240,238,245,.58)", fontSize: 13, lineHeight: 1.55 }}>
+            {block.note}
+          </div>
+        )}
+      </div>
+      {activeFilmImage && (
+        <ImageLightbox src={activeFilmImage.src} alt={activeFilmImage.alt} onClose={() => setActiveFilmImage(null)} />
+      )}
+    </section>
+  );
+}
+
 export default function ServiceContentPage(props) {
   const page = props.page;
   const content = SERVICE_CONTENT[page?.id];
@@ -885,6 +1124,7 @@ export default function ServiceContentPage(props) {
   const featureEyebrow = content.featureEyebrow || "Почему выбирают нас";
   const featureTitle = content.featureTitle || "Аккуратно, быстро и";
   const featureTitleAccent = content.featureTitleAccent || "без лишней суеты";
+  const heroTags = content.heroTags || ["от 1 штуки", "помощь с макетом", "опт для бизнеса"];
 
   const formatRows = FORMAT_ROWS.map((r) => ({ label: r.name, sub: r.size, value: r.price }));
   const meterRows = METER_PRICES.map((r) => ({ label: r.range, value: r.price, rawValue: true }));
@@ -919,7 +1159,7 @@ export default function ServiceContentPage(props) {
                 <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "#f0eef5", padding: "14px 28px", borderRadius: 50, fontSize: 15, fontWeight: 500, textDecoration: "none" }}>Заказать в Telegram</a>
               </div>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {["от 1 штуки", "помощь с макетом", "опт для бизнеса"].map((tag) => <span key={tag} style={{ border: "1px solid rgba(255,255,255,.09)", background: "rgba(255,255,255,.035)", borderRadius: 999, padding: "8px 12px", color: "rgba(240,238,245,.58)", fontSize: 13 }}>{tag}</span>)}
+                {heroTags.map((tag) => <span key={tag} style={{ border: "1px solid rgba(255,255,255,.09)", background: "rgba(255,255,255,.035)", borderRadius: 999, padding: "8px 12px", color: "rgba(240,238,245,.58)", fontSize: 13 }}>{tag}</span>)}
               </div>
             </div>
             <ProductMockup visual={visual} photo={heroPhoto} video={heroVideo} videoCaption={heroVideoCaption} />
@@ -946,6 +1186,8 @@ export default function ServiceContentPage(props) {
         </div>
       </section>
 
+      <UrgentPrintGuide guide={content.urgentGuide} />
+
       <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Eyebrow>{featureEyebrow}</Eyebrow>
@@ -961,6 +1203,8 @@ export default function ServiceContentPage(props) {
           </div>
         </div>
       </section>
+
+      <ThermoFilmTypes block={content.filmTypes} />
 
       {examples.length > 0 && (
         <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>

@@ -121,6 +121,7 @@ export const SERVICE_PHOTOS = {
   },
   termopechat: {
     hero: serviceImage("termopechat", "page-termopechat.png"),
+    seo: serviceImage("termopechat", "real-example-seo.jpg"),
     heroVideo: serviceImage("termopechat", "page-termopechat.mp4"),
     heroVideoCaption: [
       { title: "Плоттерная резка плёнки", sub: "Точный контур под номера, фамилии и логотипы" },
