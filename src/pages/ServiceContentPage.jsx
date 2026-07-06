@@ -1088,15 +1088,7 @@ function FilmSample({ item, onOpen }) {
 function MaketProblemVisual({ type, wrongImage, rightImage }) {
   const pink = "#ff5a9a";
   const green = "#6ee79c";
-  const base = {
-    height: 350,
-    borderRadius: 28,
-    position: "relative",
-    overflow: "hidden",
-    border: "1px solid rgba(255,255,255,.09)",
-    background: "radial-gradient(circle at 18% 12%,rgba(255,90,154,.18),transparent 36%), linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.014))",
-    boxShadow: "inset 0 0 0 1px rgba(255,255,255,.025)",
-  };
+
   const checker = {
     position: "absolute",
     inset: 0,
@@ -1105,147 +1097,95 @@ function MaketProblemVisual({ type, wrongImage, rightImage }) {
     backgroundSize: "18px 18px",
     backgroundPosition: "0 0,0 9px,9px -9px,-9px 0",
   };
+
   const renderBadge = (tone, label, mark) => (
-    <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 5, maxWidth: "100%", padding: "5px 7px", borderRadius: 999, border: `1px solid ${tone}45`, background: `${tone}14`, color: tone, fontSize: 8, fontWeight: 900, letterSpacing: .6, textTransform: "uppercase", boxShadow: `0 0 20px ${tone}12`, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+    <div style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 999, border: `1px solid ${tone}45`, background: `${tone}14`, color: tone, fontSize: "clamp(8px,2.2vw,10px)", fontWeight: 900, letterSpacing: .4, textTransform: "uppercase", minWidth: 0, overflow: "hidden" }}>
       <span style={{ width: 16, height: 16, flex: "0 0 16px", borderRadius: 999, display: "grid", placeItems: "center", background: tone, color: "#101116", fontSize: 10, lineHeight: 1 }}>{mark}</span>
       {label}
     </div>
   );
-  const renderCallout = (tone, label, side = "right") => (
-    <div style={{ justifySelf: side === "left" ? "start" : "end", maxWidth: "100%", padding: "5px 7px", borderRadius: 999, border: `1px solid ${tone}52`, background: `${tone}12`, color: tone, fontSize: 8, fontWeight: 900, letterSpacing: .55, textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label}</div>
+
+  const renderCallout = (tone, label) => (
+    <div style={{ padding: "3px 8px", borderRadius: 12, border: `1px solid ${tone}52`, background: `${tone}12`, color: tone, fontSize: "clamp(7px,1.8vw,9px)", fontWeight: 900, letterSpacing: .3, textTransform: "uppercase", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", lineHeight: 1.4 }}>{label}</div>
   );
-  const renderExampleImage = (src, alt, fit = "contain") => (
-    <div style={{ flex: "1 1 auto", minHeight: 0, width: "100%", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <img src={src} alt={alt} loading="lazy" style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto", objectFit: fit, display: "block" }} />
-    </div>
-  );
-  const splitPanel = {
-    position: "absolute",
-    inset: 0,
-    borderRadius: 28,
-    display: "grid",
-    gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)",
-    overflow: "hidden",
-    background: "rgba(8,9,14,.5)",
-  };
-  const sidePanel = (withBorder = false) => ({
-    position: "relative",
+
+  const photoBox = {
+    flex: "1 1 0",
     minWidth: 0,
-    padding: "5px 6px 5px",
-    display: "grid",
-    gridTemplateRows: "auto minmax(0,1fr) auto",
-    gap: 5,
-    borderRight: withBorder ? "1px solid rgba(255,255,255,.14)" : "none",
-  });
+    aspectRatio: "1",
+    position: "relative",
+    background: "rgba(8,9,14,.55)",
+    borderRadius: 12,
+    overflow: "hidden",
+  };
+
   const logoMark = (clean = false) => (
-    <div style={{ position: "absolute", left: "50%", top: "56%", width: 96, height: 96, transform: "translate(-50%,-50%)", borderRadius: clean ? "50%" : 16, background: clean ? `radial-gradient(circle at 48% 38%,#fff 0 8%,transparent 9%), linear-gradient(135deg,${accent2},${accent})` : "#f7f4fb", boxShadow: clean ? `0 18px 44px ${accent}22` : "0 14px 34px rgba(0,0,0,.28)" }}>
-      <div style={{ position: "absolute", left: "50%", top: "50%", width: clean ? 72 : 62, height: clean ? 72 : 62, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `linear-gradient(135deg,${accent2},${accent})`, border: "3px solid rgba(255,255,255,.78)" }} />
-      <div style={{ position: "absolute", left: "50%", top: "52%", transform: "translate(-50%,-50%)", color: "#fff", fontSize: 14, fontWeight: 900, letterSpacing: 2 }}>F</div>
+    <div style={{ position: "absolute", left: "50%", top: "50%", width: 80, height: 80, transform: "translate(-50%,-50%)", borderRadius: clean ? "50%" : 14, background: clean ? `radial-gradient(circle at 48% 38%,#fff 0 8%,transparent 9%), linear-gradient(135deg,${accent2},${accent})` : "#f7f4fb", boxShadow: clean ? `0 14px 36px ${accent}22` : "0 10px 28px rgba(0,0,0,.28)" }}>
+      <div style={{ position: "absolute", left: "50%", top: "50%", width: clean ? 60 : 52, height: clean ? 60 : 52, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `linear-gradient(135deg,${accent2},${accent})`, border: "3px solid rgba(255,255,255,.78)" }} />
+      <div style={{ position: "absolute", left: "50%", top: "52%", transform: "translate(-50%,-50%)", color: "#fff", fontSize: 12, fontWeight: 900, letterSpacing: 2 }}>F</div>
     </div>
   );
+
+  let wrongContent, rightContent, wrongCalloutText, rightCalloutText;
 
   if (type === "background") {
-    return (
-      <div style={base}>
-        <div style={splitPanel}>
-          <div style={sidePanel(true)}>
-            {renderBadge(pink, "неправильно", "×")}
-            {wrongImage ? (
-              renderExampleImage(wrongImage, "Пример неправильного макета с лишним фоном")
-            ) : (
-              <>
-                <div style={{ position: "absolute", left: "50%", top: "56%", width: 132, height: 118, transform: "translate(-50%,-50%)", borderRadius: 12, background: "#f5f3f8", border: `2px solid ${pink}66` }} />
-                {logoMark(false)}
-              </>
-            )}
-            {renderCallout(pink, "лишний фон")}
-          </div>
-          <div style={sidePanel(false)}>
-            {renderBadge(green, "правильно", "✓")}
-            {rightImage ? (
-              renderExampleImage(rightImage, "Пример правильного макета без лишнего фона")
-            ) : (
-              <>
-                <div style={{ position: "absolute", left: 22, right: 22, top: 64, bottom: 28, borderRadius: 14, overflow: "hidden" }}><div style={checker} /></div>
-                {logoMark(true)}
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "pixel") {
+    wrongCalloutText = "лишний фон";
+    rightCalloutText = "прозрачный фон";
+    wrongContent = wrongImage
+      ? <img src={wrongImage} alt="неправильный фон" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      : (<><div style={{ position: "absolute", left: "50%", top: "50%", width: 120, height: 100, transform: "translate(-50%,-50%)", borderRadius: 10, background: "#f5f3f8", border: `2px solid ${pink}66` }} />{logoMark(false)}</>);
+    rightContent = rightImage
+      ? <img src={rightImage} alt="правильный фон" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      : (<><div style={{ position: "absolute", inset: 0 }}><div style={checker} /></div>{logoMark(true)}</>);
+  } else if (type === "pixel") {
+    wrongCalloutText = "низкое качество";
+    rightCalloutText = "чёткий файл";
     const blocks = Array.from({ length: 18 }, (_, i) => i);
-    return (
-      <div style={base}>
-        <div style={splitPanel}>
-          <div style={sidePanel(true)}>
-            {renderBadge(pink, "неправильно", "×")}
-            {wrongImage ? (
-              renderExampleImage(wrongImage, "Пример неправильного макета в низком разрешении")
-            ) : (
-              <>
-                <div style={{ position: "absolute", left: "50%", top: "51%", width: 94, height: 156, transform: "translate(-50%,-50%) rotate(36deg)", filter: "blur(1.5px)" }}>
-                  {blocks.map((_, index) => <span key={index} style={{ position: "absolute", left: `${(index % 3) * 26}px`, top: `${Math.floor(index / 3) * 24}px`, width: 25, height: 25, background: [pink, "#f7f4fb", accent2][index % 3], opacity: .78 }} />)}
-                </div>
-                <div style={{ position: "absolute", left: 28, bottom: 30, width: 82, height: 82, borderRadius: "50%", border: `1px solid ${pink}`, background: "rgba(255,90,154,.08)" }}>
-                  <div style={{ position: "absolute", left: 22, top: 18, width: 38, height: 38, background: pink, opacity: .7, boxShadow: `18px 18px 0 ${accent2}` }} />
-                </div>
-              </>
-            )}
-            {renderCallout(pink, "низкое качество")}
+    wrongContent = wrongImage
+      ? <img src={wrongImage} alt="низкое разрешение" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      : (<>
+          <div style={{ position: "absolute", left: "50%", top: "45%", width: 80, height: 130, transform: "translate(-50%,-50%) rotate(36deg)", filter: "blur(1.5px)" }}>
+            {blocks.map((_, i) => <span key={i} style={{ position: "absolute", left: `${(i % 3) * 22}px`, top: `${Math.floor(i / 3) * 20}px`, width: 21, height: 21, background: [pink, "#f7f4fb", accent2][i % 3], opacity: .78 }} />)}
           </div>
-          <div style={sidePanel(false)}>
-            {renderBadge(green, "правильно", "✓")}
-            {rightImage ? (
-              renderExampleImage(rightImage, "Пример правильного макета в хорошем разрешении")
-            ) : (
-              <>
-                <div style={{ position: "absolute", left: "50%", top: "52%", width: 68, height: 160, transform: "translate(-50%,-50%) rotate(36deg)" }}>
-                  {[pink, "#f7f4fb", accent2].map((color, index) => <div key={color} style={{ position: "absolute", top: index * 48, left: index % 2 ? -4 : 4, width: 58, height: 58, borderRadius: 14, border: `13px solid ${color}`, boxShadow: "0 12px 28px rgba(0,0,0,.28)" }} />)}
-                </div>
-                <div style={{ position: "absolute", left: 28, bottom: 30, width: 82, height: 82, borderRadius: "50%", border: `1px solid ${green}`, background: "rgba(110,231,156,.07)" }}>
-                  <div style={{ position: "absolute", left: 18, top: 16, width: 48, height: 48, borderRadius: "18px 4px 18px 4px", background: "linear-gradient(135deg,#fff,#fff 48%,#7b50df 49%)" }} />
-                </div>
-              </>
-            )}
-            {renderCallout(green, "чёткий файл")}
+        </>);
+    rightContent = rightImage
+      ? <img src={rightImage} alt="хорошее разрешение" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      : (<>
+          <div style={{ position: "absolute", left: "50%", top: "45%", width: 58, height: 134, transform: "translate(-50%,-50%) rotate(36deg)" }}>
+            {[pink, "#f7f4fb", accent2].map((color, i) => <div key={color} style={{ position: "absolute", top: i * 40, left: i % 2 ? -4 : 4, width: 50, height: 50, borderRadius: 12, border: `11px solid ${color}`, boxShadow: "0 10px 22px rgba(0,0,0,.28)" }} />)}
           </div>
-        </div>
-      </div>
-    );
+        </>);
+  } else {
+    wrongCalloutText = "тени и прозрачные пиксели";
+    rightCalloutText = "100% заливка";
+    wrongContent = wrongImage
+      ? <img src={wrongImage} alt="полупрозрачность" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      : (<>
+          <div style={{ position: "absolute", inset: 0 }}><div style={checker} /></div>
+          <div style={{ position: "absolute", left: "50%", top: "50%", width: 88, height: 88, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `radial-gradient(circle,${pink}cc 0 44%,${accent2}70 60%,transparent 74%)`, filter: `drop-shadow(0 0 16px ${pink}88)` }} />
+          <div style={{ position: "absolute", right: 8, top: 8, padding: "3px 7px", borderRadius: 999, border: `1px solid ${pink}66`, color: pink, background: `${pink}13`, fontSize: 9, fontWeight: 800 }}>62% opacity</div>
+        </>);
+    rightContent = rightImage
+      ? <img src={rightImage} alt="100% непрозрачность" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      : (<>
+          <div style={{ position: "absolute", inset: 0 }}><div style={checker} /></div>
+          <div style={{ position: "absolute", left: "50%", top: "50%", width: 88, height: 88, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `linear-gradient(135deg,${accent2},${pink})`, border: "3px solid rgba(255,255,255,.9)", boxShadow: `0 14px 32px ${accent}28` }} />
+        </>);
   }
 
   return (
-    <div style={base}>
-      <div style={splitPanel}>
-        <div style={sidePanel(true)}>
-          {renderBadge(pink, "неправильно", "×")}
-          {wrongImage ? (
-            renderExampleImage(wrongImage, "Пример неправильного макета с полупрозрачностью и тенями")
-          ) : (
-            <>
-              <div style={{ position: "absolute", left: 24, right: 24, top: 64, bottom: 26, borderRadius: 14, overflow: "hidden" }}><div style={checker} /></div>
-              <div style={{ position: "absolute", left: "50%", top: "54%", width: 100, height: 100, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `radial-gradient(circle,${pink}cc 0 44%,${accent2}70 60%,transparent 74%)`, filter: `drop-shadow(0 0 18px ${pink}88)` }} />
-              <div style={{ position: "absolute", right: 20, top: 68, padding: "6px 10px", borderRadius: 999, border: `1px solid ${pink}66`, color: pink, background: `${pink}13`, fontSize: 10, fontWeight: 800 }}>62% opacity</div>
-            </>
-          )}
-          {renderCallout(pink, "не 100%", "left")}
-        </div>
-        <div style={sidePanel(false)}>
-          {renderBadge(green, "правильно", "✓")}
-          {rightImage ? (
-            renderExampleImage(rightImage, "Пример правильного макета без полупрозрачности и теней")
-          ) : (
-            <>
-              <div style={{ position: "absolute", left: 24, right: 24, top: 64, bottom: 26, borderRadius: 14, overflow: "hidden" }}><div style={checker} /></div>
-              <div style={{ position: "absolute", left: "50%", top: "54%", width: 100, height: 100, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `linear-gradient(135deg,${accent2},${pink})`, border: "3px solid rgba(255,255,255,.9)", boxShadow: `0 16px 38px ${accent}28` }} />
-            </>
-          )}
-          {renderCallout(green, "100%", "left")}
-        </div>
+    <div style={{ borderRadius: 28, overflow: "hidden", border: "1px solid rgba(255,255,255,.12)", background: "radial-gradient(circle at 18% 12%,rgba(255,90,154,.18),transparent 36%), linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.014))", display: "flex", flexDirection: "column", padding: 8, gap: 5 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>{renderBadge(pink, "неправильно", "×")}</div>
+        <div style={{ display: "flex", justifyContent: "center" }}>{renderBadge(green, "правильно", "✓")}</div>
+      </div>
+      <div style={{ display: "flex", gap: 6 }}>
+        <div style={photoBox}>{wrongContent}</div>
+        <div style={photoBox}>{rightContent}</div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>{renderCallout(pink, wrongCalloutText)}</div>
+        <div style={{ display: "flex", justifyContent: "center" }}>{renderCallout(green, rightCalloutText)}</div>
       </div>
     </div>
   );
@@ -1268,14 +1208,16 @@ function MaketFileGuide({ guide }) {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 20 }}>
           {guide.items.map((item) => (
-            <article key={item.t} style={{ position: "relative", borderRadius: 34, border: `1px solid ${accent}35`, background: `radial-gradient(circle at 8% 0%,${accent}18,transparent 34%), linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012))`, padding: 18, boxShadow: `0 24px 70px rgba(0,0,0,.26), 0 0 34px ${accent}10`, display: "grid", gap: 18, overflow: "hidden" }}>
+            <article key={item.t} style={{ position: "relative", borderRadius: 34, border: `1px solid ${accent}35`, background: `radial-gradient(circle at 8% 0%,${accent}18,transparent 34%), linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012))`, padding: 18, boxShadow: `0 24px 70px rgba(0,0,0,.26), 0 0 34px ${accent}10`, display: "grid", gridTemplateRows: "auto 1fr", gap: 18, overflow: "hidden" }}>
               <MaketProblemVisual type={item.type} wrongImage={item.wrongImage} rightImage={item.rightImage} />
-              <div style={{ padding: "0 4px 4px" }}>
-                <h3 style={{ fontSize: "clamp(22px,2.6vw,32px)", lineHeight: 1.08, fontWeight: 900, margin: "0 0 12px", letterSpacing: "-.03em", color: "#fff" }}>{item.t}</h3>
-                <p style={{ fontSize: 15, lineHeight: 1.62, color: "rgba(240,238,245,.58)", margin: "0 0 18px" }}>{item.d}</p>
-                <div style={{ display: "grid", gridTemplateColumns: "42px 1fr", gap: 14, alignItems: "center", padding: "14px 16px", borderRadius: 20, background: `linear-gradient(135deg,${accent}18,rgba(255,255,255,.025))`, border: `1px solid ${accent}42`, color: "rgba(240,238,245,.78)", fontSize: 14, lineHeight: 1.45 }}>
-                  <span style={{ width: 42, height: 42, borderRadius: 999, display: "grid", placeItems: "center", background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", fontSize: 25, fontWeight: 900, boxShadow: `0 12px 26px ${accent}30` }}>✓</span>
-                  <span>{item.fix}</span>
+              <div style={{ padding: "0 4px 4px", display: "flex", flexDirection: "column", height: "100%" }}>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontSize: "clamp(22px,2.6vw,32px)", lineHeight: 1.08, fontWeight: 900, margin: "0 0 12px", letterSpacing: "-.03em", color: "#fff" }}>{item.t}</h3>
+                  <p style={{ fontSize: 15, lineHeight: 1.62, color: "rgba(240,238,245,.58)", margin: 0 }}>{item.d}</p>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "36px 1fr", gap: 12, alignItems: "center", padding: "11px 13px", borderRadius: 16, background: `linear-gradient(135deg,${accent}18,rgba(255,255,255,.025))`, border: `1px solid ${accent}42`, color: "rgba(240,238,245,.76)", fontSize: 12, lineHeight: 1.38, marginTop: 18, paddingTop: 11 }}>
+                  <span style={{ width: 32, height: 32, borderRadius: 999, display: "grid", placeItems: "center", background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", fontSize: 18, fontWeight: 900, boxShadow: `0 8px 18px ${accent}26` }}>✓</span>
+                  <span style={{ fontSize: 12 }}>{item.fix}</span>
                 </div>
               </div>
             </article>
