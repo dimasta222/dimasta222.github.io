@@ -490,6 +490,51 @@ function TermoPriceCta({ onOpenCalculator }) {
   );
 }
 
+function MaketPriceShowcase({ note }) {
+  const priceSteps = [
+    { t: "Простая правка", d: "убрать фон, почистить края, подготовить файл" },
+    { t: "Доработка", d: "улучшить качество, собрать текст и изображение" },
+    { t: "С нуля", d: "создать дизайн по идее, референсу или описанию" },
+  ];
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.05fr) minmax(260px,.95fr)", gap: 18, alignItems: "stretch" }} className="dtf-price-layout">
+      <div style={{ position: "relative", overflow: "hidden", borderRadius: 30, padding: "clamp(22px,4vw,34px)", border: `1px solid ${accent}66`, background: `radial-gradient(circle at 18% 18%,${accent}36,transparent 34%), radial-gradient(circle at 86% 10%,${accent2}32,transparent 30%), linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.018))`, boxShadow: `0 26px 80px ${accent}16, inset 0 0 0 1px rgba(255,255,255,.035)` }}>
+        <div style={{ position: "absolute", right: -54, top: -54, width: 180, height: 180, borderRadius: "50%", border: `1px solid ${accent}33`, background: "rgba(255,255,255,.035)" }} />
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,.07)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(240,238,245,.72)", fontSize: 12, fontWeight: 800, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 20 }}>
+            индивидуальный расчёт
+          </div>
+          <div style={{ fontSize: "clamp(46px,7vw,78px)", fontWeight: 900, lineHeight: .9, color: "#fff", letterSpacing: "-.06em" }}>
+            от 500 ₽
+          </div>
+          <div style={{ marginTop: 16, maxWidth: 620, fontSize: 16, lineHeight: 1.65, color: "rgba(240,238,245,.74)" }}>
+            {note || "Цена зависит от исходника, количества правок и того, нужно ли просто подготовить файл или создать дизайн с нуля."}
+          </div>
+          <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 22, width: "fit-content", background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", textDecoration: "none", padding: "14px 24px", borderRadius: 999, fontSize: 15, fontWeight: 800, boxShadow: `0 18px 42px ${accent}28` }}>
+            Оценить макет в Telegram
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gap: 12 }}>
+        {priceSteps.map((item, index) => (
+          <div key={item.t} style={{ borderRadius: 22, padding: "18px 20px", border: "1px solid rgba(255,255,255,.08)", background: index === 0 ? `linear-gradient(145deg,${accent}18,rgba(255,255,255,.025))` : "rgba(255,255,255,.025)", display: "grid", gridTemplateColumns: "44px 1fr", gap: 14, alignItems: "center" }}>
+            <div style={{ width: 44, height: 44, borderRadius: 16, display: "grid", placeItems: "center", background: index === 0 ? `linear-gradient(135deg,${accent},${accent2})` : "rgba(255,255,255,.06)", color: "#fff", fontSize: 18, fontWeight: 900 }}>
+              {index + 1}
+            </div>
+            <div>
+              <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 5 }}>{item.t}</div>
+              <div style={{ fontSize: 14, lineHeight: 1.45, color: "rgba(240,238,245,.58)" }}>{item.d}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function MatrixPriceTable({ title, subtitle, columns = [], rows = [] }) {
   const [isMobileTable, setIsMobileTable] = useState(false);
 
@@ -1040,6 +1085,98 @@ function FilmSample({ item, onOpen }) {
   );
 }
 
+function MaketProblemVisual({ type }) {
+  const base = {
+    height: 182,
+    borderRadius: 22,
+    position: "relative",
+    overflow: "hidden",
+    border: "1px solid rgba(255,255,255,.08)",
+    background: "linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018))",
+  };
+  const checker = {
+    position: "absolute",
+    inset: 0,
+    opacity: .26,
+    backgroundImage: "linear-gradient(45deg,rgba(255,255,255,.18) 25%,transparent 25%), linear-gradient(-45deg,rgba(255,255,255,.18) 25%,transparent 25%), linear-gradient(45deg,transparent 75%,rgba(255,255,255,.18) 75%), linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.18) 75%)",
+    backgroundSize: "22px 22px",
+    backgroundPosition: "0 0,0 11px,11px -11px,-11px 0",
+  };
+
+  if (type === "background") {
+    return (
+      <div style={base}>
+        <div style={checker} />
+        <div style={{ position: "absolute", left: "50%", top: "50%", width: 118, height: 94, transform: "translate(-50%,-50%) rotate(-3deg)", borderRadius: 14, background: "rgba(255,255,255,.92)", boxShadow: "0 16px 44px rgba(0,0,0,.35)", border: "2px solid rgba(255,80,80,.82)" }} />
+        <div style={{ position: "absolute", left: "50%", top: "50%", width: 70, height: 70, transform: "translate(-50%,-50%) rotate(8deg)", borderRadius: "24px 24px 18px 18px", background: `linear-gradient(135deg,${accent},${accent2})`, boxShadow: `0 14px 34px ${accent}2c` }} />
+        <div style={{ position: "absolute", right: 12, bottom: 12, padding: "7px 10px", borderRadius: 999, background: "rgba(255,80,80,.16)", border: "1px solid rgba(255,80,80,.45)", color: "#ff9b9b", fontSize: 11, fontWeight: 900, letterSpacing: 1.1, textTransform: "uppercase" }}>лишний фон</div>
+      </div>
+    );
+  }
+
+  if (type === "pixel") {
+    const pixels = [
+      [36, 108], [48, 96], [60, 96], [72, 84], [84, 72], [96, 72], [108, 60], [120, 48],
+      [36, 120], [48, 120], [60, 108], [72, 108], [84, 96], [96, 84], [108, 84], [120, 72],
+    ];
+    return (
+      <div style={base}>
+        <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at 65% 25%,${accent2}26,transparent 32%), radial-gradient(circle at 24% 75%,${accent}22,transparent 30%)` }} />
+        <div style={{ position: "absolute", left: 24, top: 26, right: 24, bottom: 26, filter: "blur(3px)", borderRadius: 22, background: "rgba(255,255,255,.08)" }} />
+        {pixels.map(([left, top], index) => (
+          <span key={`${left}-${top}-${index}`} style={{ position: "absolute", left, top, width: 18, height: 18, background: index % 3 === 0 ? accent : "rgba(255,255,255,.72)", boxShadow: "0 8px 20px rgba(0,0,0,.26)" }} />
+        ))}
+        <div style={{ position: "absolute", right: 12, bottom: 12, padding: "7px 10px", borderRadius: 999, background: "rgba(253,203,110,.14)", border: "1px solid rgba(253,203,110,.46)", color: yellow, fontSize: 11, fontWeight: 900, letterSpacing: 1.1, textTransform: "uppercase" }}>низкое качество</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={base}>
+      <div style={checker} />
+      <div style={{ position: "absolute", left: "50%", top: "48%", width: 112, height: 112, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `radial-gradient(circle,${accent}88 0 42%,${accent}3d 58%,transparent 72%)`, filter: "drop-shadow(18px 16px 14px rgba(0,0,0,.38))" }} />
+      <div style={{ position: "absolute", left: "50%", top: "48%", width: 54, height: 54, transform: "translate(-50%,-50%)", borderRadius: "50%", background: `linear-gradient(135deg,${accent},${accent2})`, boxShadow: `0 0 0 12px ${accent}24, 0 0 0 28px ${accent2}13` }} />
+      <div style={{ position: "absolute", left: 12, top: 12, padding: "7px 10px", borderRadius: 999, background: "rgba(255,255,255,.07)", border: "1px solid rgba(255,255,255,.12)", color: "rgba(240,238,245,.72)", fontSize: 11, fontWeight: 800 }}>62% opacity</div>
+      <div style={{ position: "absolute", right: 12, bottom: 12, padding: "7px 10px", borderRadius: 999, background: "rgba(255,80,80,.16)", border: "1px solid rgba(255,80,80,.45)", color: "#ff9b9b", fontSize: 11, fontWeight: 900, letterSpacing: 1.1, textTransform: "uppercase" }}>не 100%</div>
+    </div>
+  );
+}
+
+function MaketFileGuide({ guide }) {
+  if (!guide?.items?.length) return null;
+
+  return (
+    <section className="section-shell" style={{ padding: "40px 5%" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+        <Eyebrow>{guide.eyebrow || "Проверка макета"}</Eyebrow>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 24, alignItems: "end", flexWrap: "wrap", marginTop: 12, marginBottom: 24 }}>
+          <div style={{ maxWidth: 780 }}>
+            <h2 style={{ fontSize: "clamp(24px,3.5vw,38px)", fontWeight: 200, margin: "0 0 12px", lineHeight: 1.18 }}>{guide.title} <span style={{ fontWeight: 600 }}>{guide.titleAccent}</span></h2>
+            <p style={{ fontSize: 15, fontWeight: 300, color: "rgba(240,238,245,.62)", lineHeight: 1.7, margin: 0 }}>{guide.text}</p>
+          </div>
+          <div style={{ padding: "10px 14px", borderRadius: 999, border: `1px solid ${accent}44`, background: `${accent}14`, color: "rgba(240,238,245,.72)", fontSize: 13, fontWeight: 800 }}>проверим до печати</div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,280px),1fr))", gap: 16 }}>
+          {guide.items.map((item) => (
+            <article key={item.t} style={{ borderRadius: 26, border: "1px solid rgba(255,255,255,.08)", background: "linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015))", padding: 16, boxShadow: "0 22px 60px rgba(0,0,0,.18)", display: "grid", gap: 16 }}>
+              <MaketProblemVisual type={item.type} />
+              <div>
+                <h3 style={{ fontSize: 19, fontWeight: 800, margin: "0 0 8px" }}>{item.t}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.55, color: "rgba(240,238,245,.6)", margin: "0 0 12px" }}>{item.d}</p>
+                <div style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 10, alignItems: "start", padding: "12px 13px", borderRadius: 16, background: `${accent}12`, border: `1px solid ${accent}33`, color: "rgba(240,238,245,.72)", fontSize: 13, lineHeight: 1.45 }}>
+                  <span style={{ width: 24, height: 24, borderRadius: 999, display: "grid", placeItems: "center", background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", fontWeight: 900 }}>✓</span>
+                  <span>{item.fix}</span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ThermoFilmTypes({ block }) {
   const [activeFilmImage, setActiveFilmImage] = useState(null);
 
@@ -1107,6 +1244,7 @@ export default function ServiceContentPage(props) {
     : content.prices?.note;
   const customPriceTables = content.prices?.tables || [];
   const priceLayout = content.prices?.layout;
+  const priceVariant = content.prices?.variant;
   const priceFormats = page?.id === "shelkografiya" ? SILK_FORMATS : (content.prices?.formats || []);
   const priceTiers = page?.id === "shelkografiya" ? SILK_TIERS : (content.prices?.tiers || []);
   const examples = content.examples || [];
@@ -1117,7 +1255,7 @@ export default function ServiceContentPage(props) {
   const heroVideo = pagePhotos?.heroVideo || null;
   const heroVideoCaption = pagePhotos?.heroVideoCaption || null;
   const seoPhoto = pagePhotos?.seo || heroPhoto;
-  const photoSlides = pagePhotos?.gallery || [];
+  const photoSlides = content.hideGallery ? [] : (pagePhotos?.gallery || []);
   const heroTitle = content.heroTitle || page?.h1;
   const heroTitleAccent = content.heroTitleAccent;
   const heroTitleAccentFirst = Boolean(content.heroTitleAccentFirst);
@@ -1125,6 +1263,7 @@ export default function ServiceContentPage(props) {
   const featureTitle = content.featureTitle || "Аккуратно, быстро и";
   const featureTitleAccent = content.featureTitleAccent || "без лишней суеты";
   const heroTags = content.heroTags || ["от 1 штуки", "помощь с макетом", "опт для бизнеса"];
+  const telegramActionLabel = content.telegramActionLabel || "Заказать в Telegram";
 
   const formatRows = FORMAT_ROWS.map((r) => ({ label: r.name, sub: r.size, value: r.price }));
   const meterRows = METER_PRICES.map((r) => ({ label: r.range, value: r.price, rawValue: true }));
@@ -1155,8 +1294,8 @@ export default function ServiceContentPage(props) {
               </h1>
               <p style={{ fontSize: "clamp(15px,2vw,18px)", fontWeight: 300, color: "rgba(240,238,245,.64)", maxWidth: 720, lineHeight: 1.65, margin: "0 0 28px" }}>{content.lead}</p>
               <div className="service-hero-actions" style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 24 }}>
-                <button type="button" onClick={props.onOpenCalculator} style={{ background: `linear-gradient(135deg,${accent},${accent2})`, border: "none", color: "#fff", padding: "14px 28px", borderRadius: 50, fontSize: 15, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>Рассчитать заказ</button>
-                <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "#f0eef5", padding: "14px 28px", borderRadius: 50, fontSize: 15, fontWeight: 500, textDecoration: "none" }}>Заказать в Telegram</a>
+                {!content.hideHeroCalculator && <button type="button" onClick={props.onOpenCalculator} style={{ background: `linear-gradient(135deg,${accent},${accent2})`, border: "none", color: "#fff", padding: "14px 28px", borderRadius: 50, fontSize: 15, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>Рассчитать заказ</button>}
+                <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ background: content.hideHeroCalculator ? `linear-gradient(135deg,${accent},${accent2})` : "rgba(255,255,255,.05)", border: content.hideHeroCalculator ? "none" : "1px solid rgba(255,255,255,.1)", color: "#f0eef5", padding: "14px 28px", borderRadius: 50, fontSize: 15, fontWeight: 500, textDecoration: "none", boxShadow: content.hideHeroCalculator ? `0 18px 42px ${accent}24` : "none" }}>{telegramActionLabel}</a>
               </div>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                 {heroTags.map((tag) => <span key={tag} style={{ border: "1px solid rgba(255,255,255,.09)", background: "rgba(255,255,255,.035)", borderRadius: 999, padding: "8px 12px", color: "rgba(240,238,245,.58)", fontSize: 13 }}>{tag}</span>)}
@@ -1167,7 +1306,7 @@ export default function ServiceContentPage(props) {
         </div>
       </section>
 
-      <VisualSlider visual={visual} examples={examples} slides={photoSlides} />
+      {!content.hideGallery && <VisualSlider visual={visual} examples={examples} slides={photoSlides} />}
       {isTechPage && <TechnologyFit pageId={page.id} />}
 
       <section className="section-shell" style={{ padding: isMobile ? "32px 5%" : "40px 5%" }}>
@@ -1185,6 +1324,8 @@ export default function ServiceContentPage(props) {
           </div>
         </div>
       </section>
+
+      <MaketFileGuide guide={content.maketFileGuide} />
 
       <UrgentPrintGuide guide={content.urgentGuide} />
 
@@ -1236,7 +1377,9 @@ export default function ServiceContentPage(props) {
             <Eyebrow>Цены</Eyebrow>
             <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>{content.prices?.title || (priceMode === "dtf" ? "Стоимость DTF-печати" : "Стоимость по размеру принта")}</h2>
 
-            {priceMode === "custom" ? (
+            {priceVariant === "maket" ? (
+              <MaketPriceShowcase note={priceNote} />
+            ) : priceMode === "custom" ? (
               priceLayout === "tiers" ? (
                 <TierPriceTable formats={priceFormats} tiers={priceTiers} subtitle={content.prices?.subtitle} />
               ) : isTermoPricePage ? (
@@ -1268,7 +1411,7 @@ export default function ServiceContentPage(props) {
               </div>
             ) : null}
 
-            {priceNote && priceMode !== "dtf" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
+            {priceNote && priceMode !== "dtf" && priceVariant !== "maket" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
 
             {!content.prices?.hideActions && !isTermoPricePage && (
               priceMode === "dtf" ? (

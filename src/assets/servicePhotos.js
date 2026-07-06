@@ -84,11 +84,9 @@ export const SERVICE_PHOTOS = {
     ],
   },
   maket: {
-    hero: serviceImage("maket", "page-maket.png"),
-    gallery: [
-      makeSlide(serviceImage("maket", "page-maket.png"), "макет", "Подготовка макета", "Подготовка принта к печати", "Проверяем размер, расположение, цвет и читаемость макета до запуска."),
-      makeSlide(serviceImage("maket", "page-dtf.png"), "контроль", "Подготовка макета", "Макет и готовое изделие", "Помогаем довести файл до результата, который нормально смотрится на ткани."),
-    ],
+    hero: serviceImage("maket", "maket-hero.webp"),
+    seo: serviceImage("maket", "page-maket.png"),
+    gallery: [],
   },
   dtf: {
     hero: serviceImage("dtf", "dtf-cast-list-grey.webp"),
