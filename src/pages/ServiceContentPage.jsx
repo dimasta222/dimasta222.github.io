@@ -1106,7 +1106,7 @@ function MaketProblemVisual({ type, wrongImage, rightImage }) {
   );
 
   const renderCallout = (tone, label) => (
-    <div style={{ padding: "3px 8px", borderRadius: 12, border: `1px solid ${tone}52`, background: `${tone}12`, color: tone, fontSize: "clamp(7px,1.8vw,9px)", fontWeight: 900, letterSpacing: .3, textTransform: "uppercase", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", lineHeight: 1.4 }}>{label}</div>
+    <div style={{ width: "100%", minHeight: 30, padding: "4px 7px", borderRadius: 12, border: `1px solid ${tone}52`, background: `${tone}12`, color: tone, fontSize: "clamp(7px,1.35vw,9px)", fontWeight: 900, letterSpacing: .25, textTransform: "uppercase", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", lineHeight: 1.2 }}>{label}</div>
   );
 
   const photoBox = {
@@ -1156,8 +1156,8 @@ function MaketProblemVisual({ type, wrongImage, rightImage }) {
           </div>
         </>);
   } else {
-    wrongCalloutText = "тени и прозрачные пиксели";
-    rightCalloutText = "100% заливка";
+    wrongCalloutText = "не 100%";
+    rightCalloutText = "100%";
     wrongContent = wrongImage
       ? <img src={wrongImage} alt="полупрозрачность" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       : (<>
@@ -1196,7 +1196,7 @@ function MaketFileGuide({ guide }) {
 
   return (
     <section className="section-shell" style={{ padding: "40px 5%" }}>
-      <div style={{ maxWidth: 1460, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <Eyebrow>{guide.eyebrow || "Проверка макета"}</Eyebrow>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 24, alignItems: "end", flexWrap: "wrap", marginTop: 12, marginBottom: 24 }}>
           <div style={{ maxWidth: 780 }}>
@@ -1206,14 +1206,14 @@ function MaketFileGuide({ guide }) {
           <div style={{ padding: "10px 14px", borderRadius: 999, border: `1px solid ${accent}44`, background: `${accent}14`, color: "rgba(240,238,245,.72)", fontSize: 13, fontWeight: 800 }}>проверим до печати</div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 20 }}>
           {guide.items.map((item) => (
             <article key={item.t} style={{ position: "relative", borderRadius: 34, border: `1px solid ${accent}35`, background: `radial-gradient(circle at 8% 0%,${accent}18,transparent 34%), linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012))`, padding: 18, boxShadow: `0 24px 70px rgba(0,0,0,.26), 0 0 34px ${accent}10`, display: "grid", gridTemplateRows: "auto 1fr", gap: 18, overflow: "hidden" }}>
               <MaketProblemVisual type={item.type} wrongImage={item.wrongImage} rightImage={item.rightImage} />
               <div style={{ padding: "0 4px 4px", display: "flex", flexDirection: "column", height: "100%" }}>
                 <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: "clamp(22px,2.6vw,32px)", lineHeight: 1.08, fontWeight: 900, margin: "0 0 12px", letterSpacing: "-.03em", color: "#fff" }}>{item.t}</h3>
-                  <p style={{ fontSize: 15, lineHeight: 1.62, color: "rgba(240,238,245,.58)", margin: 0 }}>{item.d}</p>
+                  <h3 style={{ fontSize: "clamp(22px,1.7vw,26px)", lineHeight: 1.08, fontWeight: 900, margin: "0 0 12px", letterSpacing: "-.03em", color: "#fff" }}>{item.t}</h3>
+                  <p style={{ fontSize: 13, lineHeight: 1.55, color: "rgba(240,238,245,.58)", margin: 0 }}>{item.d}</p>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "36px 1fr", gap: 12, alignItems: "center", padding: "11px 13px", borderRadius: 16, background: `linear-gradient(135deg,${accent}18,rgba(255,255,255,.025))`, border: `1px solid ${accent}42`, color: "rgba(240,238,245,.76)", fontSize: 12, lineHeight: 1.38, marginTop: 18, paddingTop: 11 }}>
                   <span style={{ width: 32, height: 32, borderRadius: 999, display: "grid", placeItems: "center", background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", fontSize: 18, fontWeight: 900, boxShadow: `0 8px 18px ${accent}26` }}>✓</span>
