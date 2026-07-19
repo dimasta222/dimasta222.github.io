@@ -170,7 +170,7 @@ export default function FutbolkiPage(props) {
             {[
               { to: "/pechat-na-tolstovkah/", t: "Печать на худи и толстовках" },
               { to: "/dtf-pechat/", t: "DTF печать" },
-              { to: "/opt/", t: "Оптовый заказ от 10 шт" },
+              { to: "/opt/", t: "Оптовый заказ от 5 шт" },
               { to: "/kontakty/", t: "Контакты и адрес" },
             ].map((l) => (
               <Link key={l.to} to={l.to} style={{ display: "block", padding: "18px 20px", borderRadius: 14, background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.06)", color: "#f0eef5", textDecoration: "none", fontSize: 15, fontWeight: 500 }}>

@@ -12,8 +12,9 @@ function buildMessage({ orderNumber, items, total, heading }) {
   if (orderNumber) lines.push(`№ ${orderNumber}`);
   lines.push("");
   items.forEach((it, i) => {
+    const unitLabel = it.unitLabel || "шт";
     lines.push(
-      `${i + 1}. ${it.formatName} · ${it.colorsLabel} · ${it.qty} шт × ${it.unitPrice} ₽ = ${(it.unitPrice * it.qty).toLocaleString("ru-RU")} ₽`,
+      `${i + 1}. ${it.formatName} · ${it.colorsLabel} · ${it.qty} ${unitLabel} × ${it.unitPrice} ₽ = ${(it.unitPrice * it.qty).toLocaleString("ru-RU")} ₽`,
     );
     if (it.modsLabel) lines.push(`   доплаты: ${it.modsLabel}`);
   });
@@ -99,7 +100,7 @@ export default function SilkscreenOrderModal({ open, onClose, items, total, onRe
               {items.map((it, i) => (
                 <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
                   <span style={{ color: "rgba(240,238,245,.7)" }}>
-                    {it.formatName} · {it.colorsLabel} · {it.qty} шт
+                    {it.formatName} · {it.colorsLabel} · {it.qty} {it.unitLabel || "шт"}
                     {it.modsLabel && <span style={{ display: "block", fontSize: 11, color: "rgba(240,238,245,.4)" }}>{it.modsLabel}</span>}
                   </span>
                   <span style={{ fontWeight: 500, whiteSpace: "nowrap" }}>{(it.unitPrice * it.qty).toLocaleString("ru-RU")} ₽</span>

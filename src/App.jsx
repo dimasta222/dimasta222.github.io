@@ -48,6 +48,7 @@ const TshirtGalleryModal = lazy(() => import("./components/TshirtGalleryModal.js
 const TshirtSizeGuideModal = lazy(() => import("./components/TshirtSizeGuideModal.jsx"));
 const SilkscreenCalcPage = lazy(() => import("./components/SilkscreenCalcPage.jsx"));
 const TermoprintCalcPage = lazy(() => import("./components/TermoprintCalcPage.jsx"));
+const SublimationCalcPage = lazy(() => import("./components/SublimationCalcPage.jsx"));
 
 /* ══════════════════════════════════════════
    CONSTANTS & PRICING
@@ -1684,7 +1685,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
    MAIN SITE
    ══════════════════════════════════════════ */
 const NAV = ["Главная", "Работы", "Изделия", "Печать", "Цены", "Отзывы", "Контакты"];
-const SCROLL_NAV = { "Главная": "hero", "Цены": "pricing", "Отзывы": "reviews", "Контакты": "contact" };
+const SCROLL_NAV = { "Главная": "hero", "Отзывы": "reviews", "Контакты": "contact" };
 
 // Пункты выпадающего меню «Печать»: технологии отдельно, изделия отдельно,
 // дополнительные сценарии отдельно. Так пользователь не путает способ нанесения
@@ -1696,9 +1697,10 @@ const toServiceItem = (id) => {
 const SERVICE_MENU_GROUPS = [
   {
     title: "Технологии печати",
-    items: ["dtf", "shelkografiya", "termopechat", "sublimaciya"]
-      .map(toServiceItem)
-      .filter(Boolean),
+    items: [
+      ...["dtf", "shelkografiya", "termopechat", "sublimaciya"].map(toServiceItem).filter(Boolean),
+      [null, "Вышивка", "embroidery_soon", { disabled: true, badge: "Скоро" }],
+    ],
   },
   {
     title: "Печать на изделиях",
@@ -1716,16 +1718,9 @@ const SERVICES = [
   { icon: "✨", title: "DTF печать", desc: "Полноцветные принты на одежде любого цвета: футболки, худи, поло, шопперы и форма.", price: "от 250 ₽" },
   { icon: "🖨️", title: "Шелкография", desc: "Тиражная печать для мерча, корпоративной формы и партий с одинаковым макетом.", price: "расчёт" },
   { icon: "🔥", title: "Термопечать", desc: "Логотипы, номера, фамилии и надписи на форме, поло и футболках.", price: "от 400 ₽" },
-  { icon: "🌈", title: "Сублимация", desc: "Яркая полноцветная печать на синтетике и спортивной форме.", price: "расчёт" },
+  { icon: "🌈", title: "Сублимация", desc: "Яркая полноцветная печать на синтетике и спортивной форме.", price: "от 290 ₽/м" },
+  { icon: "🧵", title: "Вышивка", desc: "Машинная вышивка логотипов, надписей и шевронов на одежде.", price: "скоро" },
   { icon: "🎨", title: "Подготовка макета", desc: "Уберём фон, поправим логотип, подготовим файл к печати и покажем превью.", price: "от 500 ₽" },
-];
-const DP = [{ f: "A6 (10×15)", p: 250, n: "от 5 шт" }, { f: "A5 (15×20)", p: 290, n: "от 5 шт" }, { f: "A4 (20×30)", p: 350, n: "от 5 шт" }, { f: "A3 (30×42)", p: 450, n: "от 5 шт" }, { f: "A3+ (30×42)", p: 650, n: "" }, { f: "A3++ (40×50)", p: 800, n: "" }];
-const MP = [{ r: "1–2 м", p: "1 400 ₽" }, { r: "3–5 м", p: "1 200 ₽" }, { r: "6–20 м", p: "1 100 ₽" }, { r: "20–50 м", p: "1 000 ₽" }, { r: "от 50 м", p: "900 ₽" }];
-const PRICING_NOTES = [
-  { text: "Тестовый образец — 600 ₽ (A6–A3)", highlight: true },
-  { text: "Цены за принт + прижим" },
-  { text: "Отдельный перенос — 100 ₽/шт" },
-  { text: "Мин. стоимость печати — 500 ₽" },
 ];
 const RV = [
   { name: "Наталья Гвоздева", date: "8 фев 2025", text: "Быстро, качественно, бюджетно. Напечатали форму на коллектив. Стирают — всё супер!" },
@@ -1741,6 +1736,7 @@ const PAGE_TO_PATH = {
   calc: "/calculator/dtf/",
   calc_silk: "/calculator/shelkografiya/",
   calc_termo: "/calculator/termopechat/",
+  calc_sublimation: "/calculator/sublimaciya/",
   constructor: "/constructor/",
   portfolio: "/portfolio/",
 };
@@ -1794,7 +1790,6 @@ export default function App() {
   const [ac, setAc] = useState("Главная");
   const [mn, setMn] = useState(false);
   const [sy, setSy] = useState(false);
-  const [pt, setPt] = useState("format");
   const [txMenuOpen, setTxMenuOpen] = useState(false);
   const [svcMenuOpen, setSvcMenuOpen] = useState(false);
   const [initialTextileProduct, setInitialTextileProduct] = useState(null);
@@ -1927,6 +1922,7 @@ export default function App() {
       main: "view_main",
       calc_choice: "view_calc_choice",
       calc: "view_calc",
+      calc_sublimation: "view_calc_sublimation",
       constructor: "view_constructor",
       portfolio: "view_portfolio",
       textile_tshirts: "view_tshirts",
@@ -1975,6 +1971,7 @@ export default function App() {
   const go = (s) => {
     if (s === "Работы") { navigateToPage("portfolio"); return; }
     if (s === "Главная") { goHome(); return; }
+    if (s === "Цены") { goService("/ceny/"); return; }
     if (SCROLL_NAV[s]) document.getElementById(SCROLL_NAV[s])?.scrollIntoView({ behavior: "smooth" });
     setAc(s); setMn(false);
   };
@@ -1989,6 +1986,8 @@ export default function App() {
   const openSilkCalc = () => { navigateToPage("calc_silk"); };
   // Прямой переход в калькулятор термопечати (минуя экран выбора калькулятора).
   const openTermoCalc = () => { navigateToPage("calc_termo"); };
+  // Прямой переход в калькулятор сублимационной печати.
+  const openSublimationCalc = () => { navigateToPage("calc_sublimation"); };
   const goHome = () => {
     setMn(false);
     setTxMenuOpen(false);
@@ -2037,10 +2036,11 @@ export default function App() {
     <CalcTypeSwitcher active={active} onSwitch={switchCalc} />
   );
 
-  // Навигация из шапки на SEO-странице: на главную или в раздел.
-  // Секции главной (Цены/Отзывы/Контакты) пока ведут на главную целиком.
+  // Навигация из шапки на SEO-странице: отдельные страницы открываем напрямую,
+  // остальные секции главной пока ведут на главную целиком.
   const goFromService = (s) => {
     if (s === "Работы") { navigate("/portfolio/"); return; }
+    if (s === "Цены") { navigate("/ceny/", { state: buildNavigationState() }); return; }
     navigate("/", { replace: true, state: { backStack: [] } });
     setAc(s === "Главная" ? "Главная" : ac);
   };
@@ -2097,6 +2097,14 @@ export default function App() {
       {OVERLAYS}
     </>
   );
+  if (pg === "calc_sublimation") return (
+    <>
+      <Suspense fallback={<div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#08080c", color: "#f0eef5", fontFamily: "'Outfit',sans-serif" }}>Загрузка калькулятора…</div>}>
+        <SublimationCalcPage onBack={goBackFromCalc} onGoHome={goHome} onOpenCookiePolicy={() => setCookiePolicyOpen(true)} switcher={calcSwitcher("calc_sublimation")} />
+      </Suspense>
+      {OVERLAYS}
+    </>
+  );
   if (pg === "portfolio") return (
     <>
       <Suspense fallback={<div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#08080c", color: "#f0eef5", fontFamily: "'Outfit',sans-serif" }}>Загрузка портфолио…</div>}>
@@ -2127,7 +2135,7 @@ export default function App() {
       onNavigate: goFromService,
       onNavigateTextile: goTextile,
       onNavigateService: goService,
-      onOpenCalculator: pageMeta?.id === "dtf" ? openDtfCalc : pageMeta?.id === "shelkografiya" ? openSilkCalc : pageMeta?.id === "termopechat" ? openTermoCalc : oc,
+      onOpenCalculator: pageMeta?.id === "dtf" ? openDtfCalc : pageMeta?.id === "shelkografiya" ? openSilkCalc : pageMeta?.id === "termopechat" ? openTermoCalc : pageMeta?.id === "sublimaciya" ? openSublimationCalc : oc,
       onOpenConstructor: goConstructor,
       onOpenCookiePolicy: () => setCookiePolicyOpen(true),
     };
@@ -2167,11 +2175,7 @@ export default function App() {
       {/* PRICING */}
       <PricingSection
         Reveal={A}
-        pricingTab={pt}
-        setPricingTab={setPt}
-        formatPrices={DP}
-        meterPrices={MP}
-        pricingNotes={PRICING_NOTES}
+        onOpenPrices={() => goService("/ceny/")}
         onOpenCalculator={oc}
       />
 

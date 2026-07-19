@@ -119,15 +119,17 @@ export default function MainNavigation({
                       {serviceMenuGroups.map((group) => (
                         <div key={group.title} role="group" aria-label={group.title}>
                           <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 1.5, color: "rgba(240,238,245,.35)", textTransform: "uppercase", padding: "4px 12px 8px" }}>{group.title}</div>
-                          {group.items.map(([url, label, key]) => (
+                          {group.items.map(([url, label, key, options = {}]) => (
                             <button
                               type="button"
-                              key={url}
-                              onClick={() => { setServiceMenuOpen(false); onNavigateService(url); }}
-                              style={{ width: "100%", textAlign: "left", padding: "9px 12px", borderRadius: 8, fontSize: 14, fontWeight: 300, color: currentPage === key ? "#e84393" : "rgba(240,238,245,.6)", cursor: "pointer", transition: "all .2s", letterSpacing: 0.5, background: "none", border: "none", fontFamily: "inherit" }}
-                              onMouseEnter={(event) => { event.currentTarget.style.color = "#e84393"; event.currentTarget.style.background = "rgba(232,67,147,.06)"; }}
-                              onMouseLeave={(event) => { event.currentTarget.style.color = currentPage === key ? "#e84393" : "rgba(240,238,245,.6)"; event.currentTarget.style.background = "transparent"; }}>
-                              {label}
+                              key={key || url}
+                              disabled={options.disabled}
+                              onClick={() => { if (!options.disabled) { setServiceMenuOpen(false); onNavigateService(url); } }}
+                              style={{ width: "100%", textAlign: "left", padding: "9px 12px", borderRadius: 8, fontSize: 14, fontWeight: 300, color: options.disabled ? "rgba(240,238,245,.34)" : currentPage === key ? "#e84393" : "rgba(240,238,245,.6)", cursor: options.disabled ? "not-allowed" : "pointer", transition: "all .2s", letterSpacing: 0.5, background: "none", border: "none", fontFamily: "inherit", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
+                              onMouseEnter={(event) => { if (!options.disabled) { event.currentTarget.style.color = "#e84393"; event.currentTarget.style.background = "rgba(232,67,147,.06)"; } }}
+                              onMouseLeave={(event) => { if (!options.disabled) { event.currentTarget.style.color = currentPage === key ? "#e84393" : "rgba(240,238,245,.6)"; event.currentTarget.style.background = "transparent"; } }}>
+                              <span>{label}</span>
+                              {options.badge && <small style={{ color: "#a777e3", fontSize: 9, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{options.badge}</small>}
                             </button>
                           ))}
                         </div>
@@ -216,17 +218,19 @@ export default function MainNavigation({
               <div className="mobile-nav-group" key={group.title}>
                 <div className="mobile-nav-section-title">{group.title}</div>
                 <div className="mobile-nav-submenu">
-                  {group.items.map(([url, label, key]) => {
+                  {group.items.map(([url, label, key, options = {}]) => {
                     const isActive = currentPage === key;
                     return (
                       <button
                         type="button"
-                        key={url}
-                        onClick={() => onNavigateService(url)}
+                        key={key || url}
+                        disabled={options.disabled}
+                        onClick={() => { if (!options.disabled) onNavigateService(url); }}
                         className={`mobile-nav-link ${isActive ? "mobile-nav-link-active" : ""}`}
+                        style={options.disabled ? { opacity: .48, cursor: "not-allowed" } : undefined}
                       >
                         <span>{label}</span>
-                        <span style={{ color: isActive ? "#fff" : "rgba(240,238,245,.32)" }}>+</span>
+                        <span style={{ color: options.disabled ? "#a777e3" : isActive ? "#fff" : "rgba(240,238,245,.32)", fontSize: options.disabled ? 10 : undefined, textTransform: options.disabled ? "uppercase" : undefined }}>{options.badge || "+"}</span>
                       </button>
                     );
                   })}

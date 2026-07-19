@@ -63,10 +63,11 @@ export const SERVICE_PHOTOS = {
   },
   opt: {
     hero: serviceImage("opt", "page-opt.png"),
+    seo: serviceImage("dtf", "dtf-enotop-stack.webp"),
     gallery: [
-      makeSlide(serviceImage("opt", "page-opt.png"), "опт", "Опт", "Тираж толстовок и футболок", "Готовая партия мерча для бренда, компании или мероприятия."),
-      makeSlide(serviceImage("opt", "page-tolstovki.png"), "мерч", "Опт", "Одинаковый принт на партии", "Хороший формат для дропа, корпоративной одежды или подарочного тиража."),
-      makeSlide(serviceImage("opt", "page-futbolki.png"), "тираж", "Опт", "Футболки в количестве", "Партия футболок с одинаковым логотипом и аккуратной подачей."),
+      makeSlide(serviceImage("opt", "b2b-tshirts-worktable.webp"), "DTF", "Опт", "Тираж футболок после печати", "Готовые футболки с одинаковым нанесением на рабочем столе перед упаковкой."),
+      makeSlide(serviceImage("opt", "b2b-hoodies-packing.webp"), "упаковка", "Опт", "Худи перед выдачей заказа", "Партия худи двух цветов, подготовленная к упаковке и передаче клиенту."),
+      makeSlide(serviceImage("opt", "b2b-team-jerseys.webp"), "команда", "Опт", "Комплект спортивной формы", "Готовый командный тираж с номерами и единым знаком на изделиях."),
     ],
   },
   drugoe: {

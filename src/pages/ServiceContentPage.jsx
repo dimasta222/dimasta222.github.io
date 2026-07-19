@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 import { SERVICE_PHOTOS } from "../assets/servicePhotos.js";
 import { METER_PRICES, PRINT_FORMATS } from "../data/printFormats.js";
 import { SILK_FORMATS, SILK_TIERS } from "../data/silkscreenPrices.js";
+import {
+  SUBLIMATION_PRINT_TIERS,
+  SUBLIMATION_SHRINK_TIERS,
+  SUBLIMATION_WORK_WIDTH_M,
+} from "../data/sublimationPrices.js";
 import ServicePageLayout from "./ServicePageLayout.jsx";
 import { DEFAULT_STEPS, SERVICE_CONTENT } from "./servicePagesContent.js";
 
@@ -195,6 +200,92 @@ function PriceTable({ rows, unit = "₽" }) {
           <span style={{ fontSize: 16, fontWeight: 500, color: accent }}>{r.value}{r.rawValue ? "" : ` ${unit}`}</span>
         </div>
       ))}
+    </div>
+  );
+}
+
+function SublimationPriceShowcase({ onOpenCalculator }) {
+  const tariffCard = (title, eyebrow, tiers, color) => (
+    <div style={{ borderRadius: 24, overflow: "hidden", border: `1px solid ${color}40`, background: `linear-gradient(145deg,${color}10,rgba(255,255,255,.018))` }}>
+      <div style={{ padding: "20px 22px", borderBottom: "1px solid rgba(255,255,255,.07)" }}>
+        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color, textTransform: "uppercase" }}>{eyebrow}</span>
+        <h3 style={{ fontSize: 21, margin: "7px 0 0" }}>{title}</h3>
+      </div>
+      {tiers.map((tier) => (
+        <div key={tier.label} style={{ display: "flex", justifyContent: "space-between", gap: 16, padding: "14px 22px", borderBottom: "1px solid rgba(255,255,255,.055)", fontSize: 14 }}>
+          <span style={{ color: "rgba(240,238,245,.58)" }}>{tier.label}</span>
+          <strong style={{ color, whiteSpace: "nowrap" }}>{tier.fixed ? `${tier.fixed.toLocaleString("ru-RU")} ₽ фикс.` : `${tier.rate.toLocaleString("ru-RU")} ₽/м`}</strong>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 18 }}>
+        {tariffCard("Печать", "Основная услуга", SUBLIMATION_PRINT_TIERS, accent)}
+        {tariffCard("Усадка", "Отдельная опция", SUBLIMATION_SHRINK_TIERS, accent2)}
+      </div>
+      <div style={{ marginTop: 18, padding: "20px 22px", borderRadius: 22, border: `1px solid ${accent}3d`, background: `linear-gradient(135deg,${accent}16,${accent2}12)`, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 18 }}>
+        <div>
+          <span style={{ display: "block", fontSize: 12, color: "rgba(240,238,245,.42)", marginBottom: 5 }}>Рабочая ширина печати</span>
+          <strong style={{ fontSize: 22 }}>{String(SUBLIMATION_WORK_WIDTH_M).replace(".", ",")} м</strong>
+        </div>
+        <button type="button" onClick={onOpenCalculator} style={{ background: `linear-gradient(135deg,${accent},${accent2})`, border: "none", color: "#fff", padding: "14px 24px", borderRadius: 50, fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: `0 16px 36px ${accent}2b` }}>Рассчитать по метражу</button>
+      </div>
+    </div>
+  );
+}
+
+function TechnologyPricePicker({ items = [], subtitle, note }) {
+  return (
+    <div style={{ display: "grid", gap: 18 }}>
+      {subtitle && <p style={{ maxWidth: 720, margin: "-14px 0 2px", color: "rgba(240,238,245,.58)", fontSize: 15, fontWeight: 300, lineHeight: 1.6 }}>{subtitle}</p>}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,230px),1fr))", gap: 14 }}>
+        {items.map((item, index) => {
+          const itemColor = item.color || accent;
+          const Card = item.disabled ? "article" : Link;
+          return (
+            <Card
+              key={item.name}
+              {...(item.disabled ? { "aria-disabled": true } : { to: item.to, "aria-label": `${item.name}: ${item.price}. Открыть подробный прайс` })}
+              style={{
+                minHeight: 250,
+                padding: 22,
+                borderRadius: 22,
+                border: `1px solid ${itemColor}55`,
+                background: `linear-gradient(145deg,${itemColor}18,rgba(255,255,255,.018) 58%)`,
+                color: "#f0eef5",
+                textDecoration: "none",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: 22,
+                boxShadow: `0 16px 42px ${itemColor}0d`,
+                opacity: item.disabled ? .68 : 1,
+                cursor: item.disabled ? "not-allowed" : "pointer",
+              }}
+            >
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", marginBottom: 24 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: itemColor }}>0{index + 1}</span>
+                  <span style={{ width: 9, height: 9, borderRadius: 999, background: itemColor, boxShadow: `0 0 18px ${itemColor}` }} />
+                </div>
+                <h3 style={{ margin: "0 0 12px", fontSize: 21, fontWeight: 650 }}>{item.name}</h3>
+                <p style={{ margin: 0, color: "rgba(240,238,245,.56)", fontSize: 14, fontWeight: 300, lineHeight: 1.5 }}>{item.description}</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 25, fontWeight: 700, color: itemColor, lineHeight: 1.1 }}>{item.price}</div>
+                <div style={{ minHeight: 32, marginTop: 6, color: "rgba(240,238,245,.42)", fontSize: 12, lineHeight: 1.35 }}>{item.priceDetail}</div>
+                <div style={{ marginTop: 14, display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600 }}>
+                  {item.disabled ? "Скоро появится" : "Смотреть цены"} <span style={{ color: itemColor }}>{item.disabled ? "🔒" : "→"}</span>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+      {note && <p style={{ maxWidth: 820, margin: 0, color: "rgba(240,238,245,.42)", fontSize: 13, fontWeight: 300, lineHeight: 1.6 }}>{note}</p>}
     </div>
   );
 }
@@ -1428,7 +1519,11 @@ export default function ServiceContentPage(props) {
             <Eyebrow>Цены</Eyebrow>
             <h2 style={{ fontSize: "clamp(24px,3.5vw,36px)", fontWeight: 200, marginTop: 12, marginBottom: 28 }}>{content.prices?.title || (priceMode === "dtf" ? "Стоимость DTF-печати" : "Стоимость по размеру принта")}</h2>
 
-            {priceVariant === "maket" ? (
+            {priceMode === "sublimation" ? (
+              <SublimationPriceShowcase onOpenCalculator={props.onOpenCalculator} />
+            ) : priceVariant === "technology" ? (
+              <TechnologyPricePicker items={content.prices?.technologies} subtitle={content.prices?.subtitle} note={priceNote} />
+            ) : priceVariant === "maket" ? (
               <MaketPriceShowcase note={priceNote} />
             ) : priceMode === "custom" ? (
               priceLayout === "tiers" ? (
@@ -1462,7 +1557,7 @@ export default function ServiceContentPage(props) {
               </div>
             ) : null}
 
-            {priceNote && priceMode !== "dtf" && priceVariant !== "maket" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
+            {priceNote && priceMode !== "dtf" && priceVariant !== "maket" && priceVariant !== "technology" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
 
             {!content.prices?.hideActions && !isTermoPricePage && (
               priceMode === "dtf" ? (

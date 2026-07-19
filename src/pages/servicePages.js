@@ -12,6 +12,7 @@ import ServiceContentPage from "./ServiceContentPage.jsx";
 import KontaktyPage from "./KontaktyPage.jsx";
 import OtzyvyPage from "./OtzyvyPage.jsx";
 import BlogPage from "./BlogPage.jsx";
+import PricesPage from "./PricesPage.jsx";
 
 export const SERVICE_PAGE_COMPONENTS = {
   // Типовые страницы услуг → общий рендер по данным
@@ -36,4 +37,5 @@ export const SERVICE_PAGE_COMPONENTS = {
   kontakty: KontaktyPage,
   otzyvy: OtzyvyPage,
   blog: BlogPage,
+  ceny: PricesPage,
 };
