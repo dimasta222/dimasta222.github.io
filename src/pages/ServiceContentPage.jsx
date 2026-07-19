@@ -461,6 +461,123 @@ function DtfPriceShowcase({ formatRows = [], meterRows = [], note, onOpenCalcula
   );
 }
 
+function UrgentDtfPriceShowcase({ formatRows = [], note, onOpenCalculator, isMobile }) {
+  const stats = [
+    { value: "DTF", label: "полноцветная технология" },
+    { value: "от 20 мин", label: "готовый макет + свободная очередь" },
+    { value: "от 1 шт.", label: "для подарка или небольшого тиража" },
+  ];
+
+  return (
+    <div style={{ display: "grid", gap: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "minmax(0,1.35fr) minmax(290px,.65fr)", gap: 18, alignItems: "stretch" }}>
+        <article style={{ position: "relative", overflow: "hidden", minWidth: 0, borderRadius: 30, padding: "clamp(22px,4vw,34px)", border: `1px solid ${accent}66`, background: `radial-gradient(circle at 12% 8%,${accent}3d,transparent 34%), radial-gradient(circle at 92% 5%,${accent2}30,transparent 28%), linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.018))`, boxShadow: `0 28px 80px ${accent}14` }}>
+          <div style={{ position: "absolute", width: 190, height: 190, right: -72, bottom: -78, borderRadius: "50%", border: `1px solid ${accent}30`, background: "rgba(255,255,255,.025)" }} />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "8px 13px", borderRadius: 999, border: `1px solid ${accent}66`, background: `${accent}16`, color: "rgba(255,255,255,.84)", fontSize: 12, fontWeight: 800, letterSpacing: 1.4, textTransform: "uppercase" }}>
+              <span style={{ width: 8, height: 8, borderRadius: 999, background: accent, boxShadow: `0 0 16px ${accent}` }} />
+              Печатаем методом DTF
+            </div>
+
+            <h3 style={{ margin: "20px 0 12px", maxWidth: 650, fontSize: "clamp(28px,4.6vw,48px)", fontWeight: 700, lineHeight: 1.02, letterSpacing: "-.035em" }}>
+              Яркий принт без долгой подготовки форм
+            </h3>
+            <p style={{ margin: 0, maxWidth: 680, color: "rgba(240,238,245,.68)", fontSize: 15, fontWeight: 300, lineHeight: 1.65 }}>
+              Изображение печатаем на специальной плёнке и переносим на изделие термопрессом. Поэтому DTF удобно использовать для срочных полноцветных заказов — от одной футболки до небольшого тиража.
+            </p>
+
+            <div style={{ display: "grid", gridTemplateColumns: `repeat(${isMobile ? 1 : 3},minmax(0,1fr))`, gap: 10, marginTop: 24 }}>
+              {stats.map((item, index) => (
+                <div key={item.value} style={{ minWidth: 0, padding: "15px 16px", borderRadius: 18, border: "1px solid rgba(255,255,255,.085)", background: index === 0 ? `linear-gradient(145deg,${accent}20,rgba(255,255,255,.035))` : "rgba(255,255,255,.035)" }}>
+                  <div style={{ color: index === 0 ? accent : "#fff", fontSize: 18, fontWeight: 850, lineHeight: 1.05 }}>{item.value}</div>
+                  <div style={{ marginTop: 6, color: "rgba(240,238,245,.48)", fontSize: 11, lineHeight: 1.35 }}>{item.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <article style={{ minWidth: 0, borderRadius: 30, padding: "clamp(22px,3vw,30px)", border: "1px solid rgba(255,255,255,.09)", background: `linear-gradient(160deg,${accent}1c,rgba(255,255,255,.04) 45%,${accent2}17)`, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24 }}>
+          <div>
+            <div style={{ color: "rgba(240,238,245,.46)", fontSize: 11, fontWeight: 700, letterSpacing: 1.7, textTransform: "uppercase" }}>Тестовый заказ · до A3 включительно</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 8, marginTop: 14 }}>
+              {[
+                { label: "1 сторона", price: "600", text: "спереди или сзади" },
+                { label: "2 стороны", price: "1 000", text: "спереди и сзади" },
+              ].map((item, index) => (
+                <div key={item.label} style={{ minWidth: 0, padding: "13px 11px", borderRadius: 17, border: index === 0 ? `1px solid ${accent}66` : "1px solid rgba(255,255,255,.09)", background: index === 0 ? `${accent}14` : "rgba(255,255,255,.035)" }}>
+                  <div style={{ color: "rgba(240,238,245,.55)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: .8 }}>{item.label}</div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 8 }}>
+                    <strong style={{ color: "#fff", fontSize: "clamp(25px,3vw,32px)", fontWeight: 900, lineHeight: .9, letterSpacing: "-.04em" }}>{item.price}</strong>
+                    <span style={{ color: accent, fontSize: 15, fontWeight: 800 }}>₽</span>
+                  </div>
+                  <div style={{ marginTop: 7, color: "rgba(240,238,245,.46)", fontSize: 10, lineHeight: 1.35 }}>{item.text}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 12, padding: "11px 13px", borderRadius: 15, border: `1px solid ${accent}38`, background: `${accent}0d`, color: "rgba(240,238,245,.64)", fontSize: 11, lineHeight: 1.5 }}>
+              Для A3+ и A3++ к базовой цене 600 ₽ за одну сторону или 1 000 ₽ за две стороны добавляется разница за увеличенный формат.
+            </div>
+          </div>
+
+          <div>
+            <div style={{ padding: "12px 14px", borderRadius: 16, border: "1px solid rgba(255,255,255,.08)", background: "rgba(0,0,0,.16)", color: "rgba(240,238,245,.58)", fontSize: 12, lineHeight: 1.5 }}>
+              Срок от 20 минут возможен при готовом макете и свободной производственной очереди.
+            </div>
+            {onOpenCalculator && (
+              <button type="button" onClick={onOpenCalculator} style={{ width: "100%", marginTop: 12, background: `linear-gradient(135deg,${accent},${accent2})`, border: "none", color: "#fff", padding: "14px 18px", borderRadius: 50, fontSize: 15, fontWeight: 650, cursor: "pointer", fontFamily: "inherit", boxShadow: `0 18px 42px ${accent}28` }}>
+                Рассчитать DTF-печать
+              </button>
+            )}
+          </div>
+        </article>
+      </div>
+
+      <article style={{ overflow: "hidden", borderRadius: 28, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.025)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 14, padding: "20px clamp(18px,3vw,26px)", borderBottom: "1px solid rgba(255,255,255,.07)" }}>
+          <div>
+            <div style={{ color: accent, fontSize: 11, fontWeight: 750, letterSpacing: 1.7, textTransform: "uppercase", marginBottom: 7 }}>Цена за принт + прижим</div>
+            <div style={{ fontSize: 22, fontWeight: 650 }}>Выберите формат нанесения</div>
+          </div>
+          <div style={{ padding: "8px 12px", borderRadius: 999, border: `1px solid ${accent}55`, background: `${accent}12`, color: "rgba(240,238,245,.72)", fontSize: 12, fontWeight: 700 }}>
+            цена при тираже от 5 изделий
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,minmax(0,1fr))" : "repeat(6,minmax(0,1fr))", gap: 1, background: "rgba(255,255,255,.06)" }}>
+          {formatRows.map((row, index) => (
+            <div key={row.label} style={{ minWidth: 0, minHeight: isMobile ? 158 : 174, padding: isMobile ? "16px 13px" : "18px 16px", background: index === 2 ? `linear-gradient(155deg,${accent}18,rgba(8,8,12,.96) 60%)` : "rgba(8,8,12,.95)", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 14 }}>
+              <div>
+                <div style={{ color: "#fff", fontSize: isMobile ? 22 : 25, fontWeight: 850, lineHeight: 1 }}>{row.label}</div>
+                <div style={{ marginTop: 6, color: "rgba(240,238,245,.42)", fontSize: 11, lineHeight: 1.3 }}>{row.sub}</div>
+              </div>
+              <div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 5 }}>
+                  <strong style={{ color: accent, fontSize: isMobile ? 23 : 26, fontWeight: 800, lineHeight: 1 }}>{row.value}</strong>
+                  <span style={{ color: "rgba(240,238,245,.5)", fontSize: 13 }}>₽</span>
+                </div>
+                <div style={{ marginTop: 7, color: "rgba(240,238,245,.42)", fontSize: 9, fontWeight: 750, letterSpacing: .45, lineHeight: 1.3, textTransform: "uppercase" }}>при заказе от 5 шт.</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      {note && (
+        <div style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 11, alignItems: "start", padding: "14px 16px", borderRadius: 16, border: "1px solid rgba(255,255,255,.07)", background: "rgba(255,255,255,.025)", color: "rgba(240,238,245,.56)", fontSize: 13, lineHeight: 1.55 }}>
+          <span style={{ width: 24, height: 24, borderRadius: 999, display: "grid", placeItems: "center", background: `${accent}1f`, color: accent, fontSize: 13, fontWeight: 900 }}>i</span>
+          <span>{note}</span>
+        </div>
+      )}
+
+      <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ justifySelf: "start", display: "inline-flex", alignItems: "center", gap: 9, padding: "13px 22px", borderRadius: 999, border: "1px solid rgba(255,255,255,.11)", background: "rgba(255,255,255,.045)", color: "#f0eef5", textDecoration: "none", fontSize: 14, fontWeight: 700 }}>
+        Проверить срок срочного заказа
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  );
+}
+
 function DtfConstructorPromo({ onOpenConstructor }) {
   const tools = [
     { label: "Aa", text: "Текст" },
@@ -1540,6 +1657,8 @@ export default function ServiceContentPage(props) {
                   {customPriceTables.map((table) => <MatrixPriceTable key={table.title} title={table.title} subtitle={table.subtitle} columns={table.columns} rows={table.rows} />)}
                 </div>
               )
+            ) : priceMode === "urgent-dtf" ? (
+              <UrgentDtfPriceShowcase formatRows={formatRows} note={priceNote} onOpenCalculator={props.onOpenCalculator} isMobile={isMobile} />
             ) : priceMode === "dtf" ? (
               <DtfPriceShowcase formatRows={formatRows} meterRows={meterRows} note={priceNote} onOpenCalculator={props.onOpenCalculator} />
             ) : priceMode !== "none" ? (
@@ -1557,7 +1676,7 @@ export default function ServiceContentPage(props) {
               </div>
             ) : null}
 
-            {priceNote && priceMode !== "dtf" && priceVariant !== "maket" && priceVariant !== "technology" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
+            {priceNote && priceMode !== "dtf" && priceMode !== "urgent-dtf" && priceVariant !== "maket" && priceVariant !== "technology" && <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(240,238,245,.4)", marginTop: 14, lineHeight: 1.6, maxWidth: 760 }}>{priceNote}</p>}
 
             {!content.prices?.hideActions && !isTermoPricePage && (
               priceMode === "dtf" ? (

@@ -108,7 +108,7 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
         .sublimation-result-row{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
         .sublimation-result-row:last-child{border-bottom:0}
         @media(max-width:900px){.sublimation-grid{grid-template-columns:1fr}.sublimation-tariffs{grid-template-columns:1fr 1fr}}
-        @media(max-width:640px){.sublimation-grid{margin-top:18px}.sublimation-tariffs{grid-template-columns:1fr}.sublimation-result-row{gap:12px}.sublimation-result-row strong{font-size:16px!important}.sublimation-total{font-size:27px!important}}
+        @media(max-width:640px){.sublimation-grid{margin-top:18px}.sublimation-tariffs{grid-template-columns:1fr}.sublimation-result-row{gap:12px}}
       `}</style>
 
       <div className="page-shell-narrow" style={{ maxWidth: 1240, margin: "0 auto", padding: "28px 5% 0" }}>
@@ -123,8 +123,7 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
 
         <div style={{ textAlign: "center", margin: "36px 0 24px" }}>
           <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: 4, color: pink, textTransform: "uppercase" }}>Печать на синтетике</span>
-          <h1 style={{ fontSize: "clamp(27px,4vw,44px)", fontWeight: 200, margin: "12px 0 10px" }}>Калькулятор <span style={{ fontWeight: 700, background: `linear-gradient(135deg,${pink},${violet})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>сублимации</span></h1>
-          <p style={{ maxWidth: 620, margin: "0 auto", color: "rgba(240,238,245,.48)", fontSize: 14, lineHeight: 1.6 }}>Расчёт печати по погонным метрам. Рабочая ширина материала — {number(SUBLIMATION_WORK_WIDTH_M)} м.</p>
+          <h1 style={{ fontSize: "clamp(26px,4vw,42px)", fontWeight: 200, margin: "12px 0 10px" }}>Калькулятор <span style={{ fontWeight: 700, background: `linear-gradient(135deg,${pink},${violet})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>сублимации</span></h1>
         </div>
 
         {switcher}
@@ -132,7 +131,7 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
         <div className="sublimation-grid">
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <section className="cs calc-panel" style={{ padding: "24px", border: `1px solid ${pink}29` }}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: pink, textTransform: "uppercase", marginBottom: 20 }}>Параметры расчёта</div>
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, color: pink, textTransform: "uppercase", marginBottom: 20 }}>Параметры расчёта</div>
 
               <label htmlFor="sublimation-meters" style={{ display: "block", fontSize: 11, fontWeight: 500, letterSpacing: 1.2, color: "rgba(240,238,245,.42)", textTransform: "uppercase", marginBottom: 8 }}>Метраж печати</label>
               <div style={{ position: "relative" }}>
@@ -144,11 +143,11 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
                   onChange={(event) => setMeters(event.target.value)}
                   className="inf sublimation-input"
                   placeholder="Например, 10,5"
-                  style={{ fontSize: 22, fontWeight: 650, paddingRight: 62 }}
+                  style={{ fontSize: 16, fontWeight: 650, paddingRight: 62 }}
                 />
                 <span style={{ position: "absolute", right: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(240,238,245,.38)", fontWeight: 600 }}>м</span>
               </div>
-              <div style={{ fontSize: 12, color: "rgba(240,238,245,.34)", lineHeight: 1.5, marginTop: 8 }}>Минимальный метраж — {SUBLIMATION_MIN_METERS} м. Дробные значения считаются точно: 10,5 м × ставка тарифа.</div>
+              <div style={{ fontSize: 12, color: "rgba(240,238,245,.34)", lineHeight: 1.5, marginTop: 8 }}>Минимальный метраж — {SUBLIMATION_MIN_METERS} м.</div>
 
               <button
                 type="button"
@@ -157,7 +156,7 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
                 onClick={() => setWithShrink((current) => !current)}
                 style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginTop: 22, padding: "16px 17px", borderRadius: 15, border: `1px solid ${withShrink ? `${violet}66` : "rgba(255,255,255,.09)"}`, background: withShrink ? `${violet}12` : "rgba(255,255,255,.025)", color: "#f0eef5", cursor: "pointer", fontFamily: "inherit", textAlign: "left" }}
               >
-                <span><strong style={{ display: "block", fontSize: 15, marginBottom: 4 }}>Добавить усадку</strong><small style={{ color: "rgba(240,238,245,.42)", fontSize: 12 }}>Отдельная услуга по тому же метражу</small></span>
+                <span><strong style={{ display: "block", fontSize: 14, marginBottom: 4 }}>Добавить усадку</strong><small style={{ color: "rgba(240,238,245,.42)", fontSize: 12 }}>Отдельная услуга по тому же метражу</small></span>
                 <span style={{ width: 46, height: 26, borderRadius: 999, padding: 3, background: withShrink ? violet : "rgba(255,255,255,.12)", transition: ".2s", flexShrink: 0 }}><i style={{ display: "block", width: 20, height: 20, borderRadius: "50%", background: "#fff", transform: withShrink ? "translateX(20px)" : "translateX(0)", transition: ".2s" }} /></span>
               </button>
 
@@ -166,7 +165,12 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
                 <div style={{ padding: 14, borderRadius: 13, background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.07)" }}><span style={{ fontSize: 11, color: "rgba(240,238,245,.35)" }}>Площадь печати</span><strong style={{ display: "block", fontSize: 18, marginTop: 5 }}>{hasResult ? `${number(result.area)} м²` : "—"}</strong></div>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}><button type="button" onClick={resetCalc} style={{ background: "transparent", border: 0, color: "rgba(240,238,245,.38)", cursor: "pointer", fontFamily: "inherit", fontSize: 12 }}>Сбросить расчёт</button></div>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
+                <button type="button" onClick={resetCalc} className="silk-reset-btn" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,80,80,.08)", border: "1px solid rgba(255,80,80,.2)", borderRadius: 10, cursor: "pointer", color: "#ff6b6b", fontSize: 12, fontWeight: 500, fontFamily: "'Outfit',sans-serif", padding: "7px 14px", transition: "all .3s" }} onMouseEnter={(event) => { event.currentTarget.style.background = "rgba(255,80,80,.15)"; event.currentTarget.style.borderColor = "rgba(255,80,80,.4)"; }} onMouseLeave={(event) => { event.currentTarget.style.background = "rgba(255,80,80,.08)"; event.currentTarget.style.borderColor = "rgba(255,80,80,.2)"; }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 1 1 3 6.7" /><path d="M3 22v-6h6" /></svg>
+                  Сбросить расчёт
+                </button>
+              </div>
             </section>
 
             <div className="sublimation-tariffs">
@@ -177,21 +181,21 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
 
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <section className="cs calc-panel" style={{ padding: "clamp(22px,4vw,30px)", border: `1px solid ${pink}38`, background: `radial-gradient(circle at 100% 0,${violet}18,transparent 42%),linear-gradient(145deg,${pink}0d,rgba(255,255,255,.018))` }}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: pink, textTransform: "uppercase", marginBottom: 18 }}>Результат</div>
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, color: pink, textTransform: "uppercase", marginBottom: 18 }}>Результат</div>
               {!hasResult ? (
                 <div style={{ padding: "38px 0", textAlign: "center", color: "rgba(240,238,245,.3)", fontSize: 14 }}>Введите метраж от {SUBLIMATION_MIN_METERS} м</div>
               ) : (
                 <>
                   <div className="sublimation-result-row">
-                    <div><strong style={{ fontSize: 15 }}>Сублимационная печать</strong><div style={{ fontSize: 12, color: "rgba(240,238,245,.38)", marginTop: 4 }}>{number(result.meters)} м × {money(result.print.rate)}/м</div></div>
-                    <strong style={{ fontSize: 19, color: pink, whiteSpace: "nowrap" }}>{money(result.print.cost)}</strong>
+                    <div><strong style={{ fontSize: 14 }}>Сублимационная печать</strong><div style={{ fontSize: 12, color: "rgba(240,238,245,.38)", marginTop: 4 }}>{number(result.meters)} м × {money(result.print.rate)}/м</div></div>
+                    <strong className="calc-result-price" style={{ fontSize: 18, color: pink, whiteSpace: "nowrap" }}>{money(result.print.cost)}</strong>
                   </div>
                   <div className="sublimation-result-row">
-                    <div><strong style={{ fontSize: 15 }}>Усадка</strong><div style={{ fontSize: 12, color: "rgba(240,238,245,.38)", marginTop: 4 }}>{withShrink ? `${number(result.meters)} м × ${money(result.shrink.rate)}/м` : "не выбрана"}</div></div>
-                    <strong style={{ fontSize: 19, color: withShrink ? violet : "rgba(240,238,245,.26)", whiteSpace: "nowrap" }}>{withShrink ? money(result.shrink.cost) : "0 ₽"}</strong>
+                    <div><strong style={{ fontSize: 14 }}>Усадка</strong><div style={{ fontSize: 12, color: "rgba(240,238,245,.38)", marginTop: 4 }}>{withShrink ? `${number(result.meters)} м × ${money(result.shrink.rate)}/м` : "не выбрана"}</div></div>
+                    <strong className="calc-result-price" style={{ fontSize: 18, color: withShrink ? violet : "rgba(240,238,245,.26)", whiteSpace: "nowrap" }}>{withShrink ? money(result.shrink.cost) : "0 ₽"}</strong>
                   </div>
                   <div style={{ marginTop: 22, padding: "20px 22px", borderRadius: 16, background: `linear-gradient(135deg,${pink}16,${violet}14)`, border: `1px solid ${pink}38` }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 18 }}><span style={{ fontSize: 16, fontWeight: 600 }}>Итого</span><strong className="sublimation-total" style={{ fontSize: 32, color: pink }}>{money(result.total)}</strong></div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 18 }}><span style={{ fontSize: 16, fontWeight: 600 }}>Итого</span><strong className="calc-total-value sublimation-total" style={{ fontSize: 28, color: pink }}>{money(result.total)}</strong></div>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginTop: 14, paddingTop: 13, borderTop: "1px solid rgba(255,255,255,.09)" }}>
                       <span style={{ fontSize: 12, color: "rgba(240,238,245,.5)" }}>Цена за 1 пог. м {withShrink ? "с усадкой" : "без усадки"}</span>
                       <strong style={{ fontSize: 18, color: violet, whiteSpace: "nowrap" }}>{money(result.total / result.meters)}/м</strong>

@@ -1357,7 +1357,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
                   <div style={{ width: 14, height: 14, borderRadius: 4, background: COLORS[globalIdx % COLORS.length], flexShrink: 0 }} />
                   <span style={{ fontSize: 14, fontWeight: 500 }}>Принт #{globalIdx + 1}</span>
-                  <label className="calc-file-label" style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(108,92,231,.1)", border: "1px solid rgba(108,92,231,.25)", borderRadius: 8, padding: "4px 10px", cursor: "pointer", color: "#6c5ce7", fontSize: 11, fontWeight: 500, fontFamily: "'Outfit',sans-serif", transition: "all .3s" }} onMouseEnter={e => { e.currentTarget.style.background = "rgba(108,92,231,.2)"; }} onMouseLeave={e => { e.currentTarget.style.background = "rgba(108,92,231,.1)"; }}>
+                  <label className="calc-file-label" style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(108,92,231,.1)", border: "1px solid rgba(108,92,231,.25)", borderRadius: 8, padding: "4px 10px", cursor: "pointer", color: "#6c5ce7", fontSize: 12, fontWeight: 500, fontFamily: "'Outfit',sans-serif", transition: "all .3s" }} onMouseEnter={e => { e.currentTarget.style.background = "rgba(108,92,231,.2)"; }} onMouseLeave={e => { e.currentTarget.style.background = "rgba(108,92,231,.1)"; }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     Файл
                     <input type="file" accept=".png,.jpg,.jpeg,.webp,.svg,.pdf,.tiff,.tif" style={{ display: "none" }} onChange={e => { if (e.target.files[0]) handleFileUpload(it.id, e.target.files[0]); e.target.value = ""; }} />
@@ -1369,7 +1369,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
                     const locked = it.fileName && f !== "qty";
                     return (
                       <div key={f}>
-                        <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 5, display: "block" }}>{label}</label>
+                        <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 5, display: "block" }}>{label}</label>
                         <input type="number" value={it[f] || ""} onChange={e => upd(it.id, f, e.target.value)} readOnly={locked} tabIndex={locked ? -1 : undefined} className="inf" style={{ padding: "10px 12px", fontSize: 16, fontWeight: 500, textAlign: "center", ...(locked ? { opacity: .55, pointerEvents: "none" } : {}) }} min={f === "qty" ? 1 : 0.1} step={f === "qty" ? 1 : 0.5} />
                       </div>
                     );
@@ -1438,7 +1438,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
               <div className={`calc-layout-block${mobileLayoutVisible ? " calc-layout-block-visible" : ""}`}>
               <div className="cs calc-panel" style={{ padding: 20, overflow: "hidden" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: layoutOpen ? 14 : 0 }}>
-                  <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, color: "#6c5ce7", textTransform: "uppercase" }}>Раскладка на полотне</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: 2, color: "#6c5ce7", textTransform: "uppercase" }}>Раскладка на полотне</div>
                 </div>
                 <div style={{ position: "relative" }}>
                   <div
@@ -1617,7 +1617,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
 
             {(isSmallOrder || isMixed) && (
               <div className="cs calc-panel" style={{ padding: 22 }}>
-                <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, color: "rgba(240,238,245,.35)", textTransform: "uppercase", marginBottom: 14 }}>Цены по формату (печать + нанесение)</div>
+                <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: 2, color: "rgba(240,238,245,.35)", textTransform: "uppercase", marginBottom: 14 }}>Цены по формату (печать + нанесение)</div>
                 {FORMAT_PRICES.map((f, i) => {
                   const active = formatItems.some(it => it.format && it.format.name === f.name);
                   const isLarge = f.name === "A3+" || f.name === "A3++";
@@ -1636,7 +1636,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
             {!isSmallOrder && (
               <>
                 <div className="cs calc-panel" style={{ padding: 22 }}>
-                  <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, color: "rgba(240,238,245,.35)", textTransform: "uppercase", marginBottom: 14 }}>Тарифы — печать</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: 2, color: "rgba(240,238,245,.35)", textTransform: "uppercase", marginBottom: 14 }}>Тарифы — печать</div>
                   {PRINT_TIERS.map((t, i) => {
                     const dm = isMixed ? meterPartMeters : metersRound;
                     const activeIdx = dm > 0 ? PRINT_TIERS.findIndex(tt => dm < tt.cap) : -1;
@@ -1646,7 +1646,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
                 </div>
                 {withApply && (
                   <div className="cs calc-panel" style={{ padding: 22 }}>
-                    <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, color: "rgba(240,238,245,.35)", textTransform: "uppercase", marginBottom: 14 }}>Тарифы — нанесение</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: 2, color: "rgba(240,238,245,.35)", textTransform: "uppercase", marginBottom: 14 }}>Тарифы — нанесение</div>
                     {APPLY_TIERS.map((t, i) => {
                       const dq = isMixed ? meterQty : totalQty;
                       const a = valid && dq >= t.min && dq <= t.max;
@@ -1685,7 +1685,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
    MAIN SITE
    ══════════════════════════════════════════ */
 const NAV = ["Главная", "Работы", "Изделия", "Печать", "Цены", "Отзывы", "Контакты"];
-const SCROLL_NAV = { "Главная": "hero", "Отзывы": "reviews", "Контакты": "contact" };
+const SCROLL_NAV = { "Главная": "hero", "Отзывы": "reviews" };
 
 // Пункты выпадающего меню «Печать»: технологии отдельно, изделия отдельно,
 // дополнительные сценарии отдельно. Так пользователь не путает способ нанесения
@@ -1972,6 +1972,7 @@ export default function App() {
     if (s === "Работы") { navigateToPage("portfolio"); return; }
     if (s === "Главная") { goHome(); return; }
     if (s === "Цены") { goService("/ceny/"); return; }
+    if (s === "Контакты") { goService("/kontakty/"); return; }
     if (SCROLL_NAV[s]) document.getElementById(SCROLL_NAV[s])?.scrollIntoView({ behavior: "smooth" });
     setAc(s); setMn(false);
   };
@@ -2041,6 +2042,7 @@ export default function App() {
   const goFromService = (s) => {
     if (s === "Работы") { navigate("/portfolio/"); return; }
     if (s === "Цены") { navigate("/ceny/", { state: buildNavigationState() }); return; }
+    if (s === "Контакты") { navigate("/kontakty/", { state: buildNavigationState() }); return; }
     navigate("/", { replace: true, state: { backStack: [] } });
     setAc(s === "Главная" ? "Главная" : ac);
   };

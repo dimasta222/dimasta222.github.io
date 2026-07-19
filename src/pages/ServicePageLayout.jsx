@@ -45,7 +45,7 @@ export default function ServicePageLayout({
       <MainNavigation
         scrollY={scrollY}
         currentPage={currentPage}
-        activeSection={page?.id === "ceny" ? "Цены" : ""}
+        activeSection={page?.id === "ceny" ? "Цены" : page?.id === "kontakty" ? "Контакты" : ""}
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
         textileMenuOpen={textileMenuOpen}

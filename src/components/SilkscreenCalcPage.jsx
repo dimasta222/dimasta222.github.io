@@ -129,16 +129,16 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
           .silk-head{margin:22px 0 18px!important}
           .silk-card{padding:16px 16px!important}
           .silk-scroll{margin:0 -16px;padding:0 16px}
-          .silk-price-table{font-size:11px!important;min-width:420px!important}
+          .silk-price-table{font-size:12px!important;min-width:420px!important}
           .silk-price-table th,.silk-price-table td{padding:4px 5px!important}
           .silk-effects-row{gap:6px!important}
-          .silk-effects-row .tb{padding:7px 9px!important;font-size:11px!important}
+          .silk-effects-row .tb{padding:7px 9px!important;font-size:13px!important}
           .silk-reset-row{flex-direction:column!important;align-items:stretch!important;gap:10px!important}
           .silk-reset-row .silk-reset-btn{justify-content:center!important}
         }
         @media(max-width:380px){
           .silk-colors{gap:4px!important}
-          .silk-colors .tb{padding:8px 2px!important;font-size:12px!important}
+          .silk-colors .tb{padding:8px 2px!important;font-size:13px!important}
           .silk-price-table{min-width:380px!important}
         }
       `}</style>
@@ -177,7 +177,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   <div>
-                    <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Формат принта</label>
+                    <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Формат принта</label>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
                       {SILK_FORMATS.map((f) => (
                         <button key={f.name} onClick={() => upd(it.id, "format", f.name)} className={`tb ${it.format === f.name ? "ta" : "ti"}`} style={{ padding: "9px 6px", fontSize: 13 }}>{f.label}</button>
@@ -186,7 +186,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Количество цветов</label>
+                    <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Количество цветов</label>
                     <div className="silk-colors" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 6 }}>
                       {COLOR_OPTIONS.map((c) => (
                         <button key={c.value} onClick={() => upd(it.id, "colors", c.value)} className={`tb ${String(it.colors) === c.value ? "ta" : "ti"}`} style={{ padding: "8px 4px", fontSize: 13 }}>{c.value}</button>
@@ -195,12 +195,12 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тираж, шт</label>
+                    <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тираж, шт</label>
                     <input type="number" value={it.qty || ""} onChange={(e) => upd(it.id, "qty", e.target.value)} className="inf" min={1} step={1} style={{ padding: "12px 16px", fontSize: 16, fontWeight: 500, textAlign: "center" }} />
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тип ткани</label>
+                    <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тип ткани</label>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                       {SILK_FABRIC_OPTIONS.map((f) => (
                         <button key={f.value} onClick={() => upd(it.id, "fabric", f.value)} title={f.hint} className={`tb ${it.fabric === f.value ? "ta" : "ti"}`} style={{ padding: "8px 4px", fontSize: 12 }}>{f.label}</button>
@@ -209,7 +209,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тип изделия</label>
+                    <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тип изделия</label>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
                       {SILK_GARMENT_OPTIONS.map((g) => (
                         <button key={g.value} onClick={() => upd(it.id, "garment", g.value)} title={g.hint} className={`tb ${it.garment === g.value ? "ta" : "ti"}`} style={{ padding: "8px 4px", fontSize: 12 }}>{g.label}</button>
@@ -218,7 +218,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
                   </div>
 
                   <div>
-                    <label style={{ fontSize: 10, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Доп. эффекты и обработка</label>
+                    <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Доп. эффекты и обработка</label>
                     <div className="silk-effects-row" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {SILK_EXTRAS.map((e) => {
                         const on = (it.extras || []).includes(e.value);
@@ -263,7 +263,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
                           <div style={{ fontSize: 12, fontWeight: 300, color: "rgba(240,238,245,.3)" }}>{it.qty} шт × {it.unitPrice} ₽ (тираж от {it.tier})</div>
                           {it.modsLabel && <div style={{ fontSize: 11, fontWeight: 300, color: "rgba(240,238,245,.28)", marginTop: 2 }}>{it.modsLabel}</div>}
                         </div>
-                        <span style={{ fontSize: 18, fontWeight: 600 }}>{it.cost.toLocaleString("ru")} ₽</span>
+                        <span className="calc-result-price" style={{ fontSize: 18, fontWeight: 600 }}>{it.cost.toLocaleString("ru")} ₽</span>
                       </div>
                     ))}
                   </div>

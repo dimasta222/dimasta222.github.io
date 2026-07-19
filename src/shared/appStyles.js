@@ -225,28 +225,28 @@ input[type=number]{-moz-appearance:textfield}
 	.hero-actions>*{flex:1 1 100%!important}
 	.hero-stats{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
 	.calc-item-grid{grid-template-columns:1fr 1fr 1fr!important;gap:6px!important}
-	.calc-item-grid input{padding:8px 4px!important;font-size:14px!important}
-	.calc-item-grid label{font-size:9px!important;letter-spacing:.5px!important}
+	.calc-item-grid input{padding:8px 4px!important;font-size:16px!important}
+	.calc-item-grid label{font-size:11px!important;letter-spacing:.7px!important}
 	.calc-layout-toggle-mobile{display:flex!important}
 	.calc-layout-block{display:none!important;min-width:0!important}
 	.calc-layout-block-visible{display:block!important}
 	.calc-add-row{flex-direction:column!important}
 	.calc-add-row>*{width:100%!important}
-	.calc-file-label{padding:3px 8px!important;font-size:10px!important;gap:4px!important}
+	.calc-file-label{padding:3px 8px!important;font-size:12px!important;gap:4px!important}
 	.calc-file-label svg{width:10px!important;height:10px!important}
 	.calc-file-info{gap:6px!important;padding:6px 8px!important}
 	.calc-file-info img{width:28px!important;height:28px!important;border-radius:5px!important}
-	.calc-file-info-name{font-size:11px!important}
-	.calc-file-info-dpi{font-size:9px!important}
+	.calc-file-info-name{font-size:12px!important}
+	.calc-file-info-dpi{font-size:11px!important}
 	.calc-fmt-row{padding:6px 8px!important;gap:2px 6px!important}
-	.calc-fmt-name{font-size:12px!important}
-	.calc-fmt-prices{font-size:11px!important;flex-wrap:wrap!important;white-space:normal!important;gap:2px 6px!important}
+	.calc-fmt-name{font-size:13px!important}
+	.calc-fmt-prices{font-size:13px!important;flex-wrap:wrap!important;white-space:normal!important;gap:2px 6px!important}
 	.calc-total-box{padding:14px 16px!important}
-	.calc-total-value{font-size:22px!important}
-	.calc-total-note{font-size:11px!important}
-	.calc-result-dims{font-size:13px!important}
-	.calc-result-sub{font-size:11px!important;margin-left:14px!important}
-	.calc-result-price{font-size:15px!important}
+	.calc-total-value{font-size:28px!important}
+	.calc-total-note{font-size:13px!important}
+	.calc-result-dims{font-size:14px!important}
+	.calc-result-sub{font-size:12px!important;margin-left:14px!important}
+	.calc-result-price{font-size:18px!important}
 	.qty-inline{width:100%!important;justify-content:space-between!important}
 	.mobile-quick-actions{left:12px;right:12px;bottom:12px;gap:8px}
 	.size-guide-grid{grid-template-columns:1fr!important}
@@ -275,12 +275,12 @@ input[type=number]{-moz-appearance:textfield}
 	.textile-card-grid .product-card span{font-size:13px!important}
 	.main-tshirt-grid,.reviews-grid,.contact-grid{gap:16px!important}
 	.gallery-thumb-grid>*{min-width:180px!important}
-	.calc-fmt-name{font-size:11px!important}
-	.calc-fmt-prices{font-size:10px!important}
+	.calc-fmt-name{font-size:13px!important}
+	.calc-fmt-prices{font-size:13px!important}
 	.calc-total-box{padding:12px 14px!important}
-	.calc-total-value{font-size:20px!important}
-	.calc-result-dims{font-size:12px!important}
-	.calc-result-price{font-size:14px!important}
+	.calc-total-value{font-size:28px!important}
+	.calc-result-dims{font-size:14px!important}
+	.calc-result-price{font-size:18px!important}
 }
 @media(max-width:380px){
 	.page-shell,.page-shell-narrow{padding-left:12px!important;padding-right:12px!important}
