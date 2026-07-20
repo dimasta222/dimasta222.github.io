@@ -115,6 +115,9 @@ a{color:inherit}
 .inf{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 20px;color:#f0eef5;font-size:15px;width:100%;outline:none;transition:all .3s;font-family:'Outfit',sans-serif}
 .inf:focus{border-color:#e84393;box-shadow:0 0 20px rgba(232,67,147,.15)}
 .inf::placeholder{color:rgba(240,238,245,.25)}
+.numeric-caret-shell{position:relative;display:block;width:100%}
+.numeric-caret-activator{position:absolute;inset:0;z-index:2;border-radius:14px;background:transparent;cursor:text;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.numeric-caret-shell:focus-within .numeric-caret-activator{pointer-events:none}
 .nb{backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);isolation:isolate;transform:translateZ(0);backface-visibility:hidden}
 .tb{padding:10px 24px;border-radius:50px;border:none;cursor:pointer;font-size:14px;font-weight:400;letter-spacing:.5px;transition:all .3s;font-family:'Outfit',sans-serif}
 .ta{background:linear-gradient(135deg,#e84393,#6c5ce7);color:#fff}

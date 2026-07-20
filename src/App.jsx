@@ -43,6 +43,7 @@ import { parsePriceValue } from "./shared/textileHelpers.js";
 import { reachGoal, hit as ymHit } from "./utils/metrika.js";
 import { sanitizeDecimalInput, sanitizeIntegerInput } from "./utils/numericInput.js";
 import { clearCalcFiles, clearCalcState, deleteCalcFile, loadCalcFile, loadCalcState, saveCalcFile, saveCalcState } from "./utils/persistStorage.js";
+import NumericCaretInput from "./components/NumericCaretInput.jsx";
 
 const PortfolioPage = lazy(() => import("./portfolio/PortfolioCatalogPage.jsx"));
 const ConstructorRoute = lazy(() => import("./components/constructor/ConstructorRoute.jsx"));
@@ -1372,8 +1373,7 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
                     return (
                       <div key={f}>
                         <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 5, display: "block" }}>{label}</label>
-                        <input
-                          data-caret-end
+                        <NumericCaretInput
                           type="text"
                           inputMode={f === "qty" ? "numeric" : "decimal"}
                           pattern={f === "qty" ? "[0-9]*" : "[0-9]*[.,]?[0-9]*"}

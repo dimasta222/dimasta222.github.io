@@ -9,6 +9,7 @@ import {
 import STYLES from "../shared/appStyles.js";
 import { sanitizeDecimalInput } from "../utils/numericInput.js";
 import LogoMini from "./LogoMini.jsx";
+import NumericCaretInput from "./NumericCaretInput.jsx";
 import SilkscreenOrderModal from "./SilkscreenOrderModal.jsx";
 import TG from "./TG.jsx";
 
@@ -136,9 +137,8 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
 
               <label htmlFor="sublimation-meters" style={{ display: "block", fontSize: 11, fontWeight: 500, letterSpacing: 1.2, color: "rgba(240,238,245,.42)", textTransform: "uppercase", marginBottom: 8 }}>Метраж печати</label>
               <div style={{ position: "relative" }}>
-                <input
+                <NumericCaretInput
                   id="sublimation-meters"
-                  data-caret-end
                   type="text"
                   inputMode="decimal"
                   value={meters}
