@@ -5,7 +5,9 @@ function getNumericInput(event) {
   const candidates = [event?.target, event?.currentTarget];
   const input = candidates.find((node) => node instanceof HTMLInputElement);
   if (!input || input.readOnly || input.disabled) return null;
-  if (input.type !== "number" && input.inputMode !== "numeric" && input.inputMode !== "decimal") return null;
+  if (!input.hasAttribute("data-caret-end")) return null;
+  const inputMode = input.inputMode || input.getAttribute("inputmode");
+  if (input.type !== "number" && inputMode !== "numeric" && inputMode !== "decimal") return null;
   return input;
 }
 
@@ -22,25 +24,30 @@ function setCaretAtValueEnd(input) {
 function queueCaretPlacement(input) {
   const move = () => setCaretAtValueEnd(input);
 
-  // The delayed passes run after the browser's native tap/click caret logic
-  // and after the mobile keyboard has started opening.
   move();
   if (typeof requestAnimationFrame === "function") {
-    requestAnimationFrame(() => {
-      move();
-      requestAnimationFrame(move);
-    });
+    requestAnimationFrame(move);
   }
-  setTimeout(move, 0);
-  setTimeout(move, 120);
 }
 
-// Used by the delegated pointer/touch listeners in main.jsx. Do not cancel the
-// native event: cancelling touchstart/pointerdown can prevent the soft keyboard
-// from opening or let the browser restore the tapped caret position afterwards.
+// The native mobile tap behavior places the caret where the finger touched.
+// Cancel it on the initial press, focus synchronously while the trusted user
+// gesture is active, and then place the caret explicitly after the value.
 export function focusNumericInputAtEnd(event) {
   const input = getNumericInput(event);
   if (!input) return;
+
+  if ("button" in event && event.button !== 0) return;
+  if ("isPrimary" in event && event.isPrimary === false) return;
+
+  if (event.cancelable) event.preventDefault();
+
+  try {
+    input.focus({ preventScroll: true });
+  } catch {
+    input.focus();
+  }
+
   queueCaretPlacement(input);
 }
 

@@ -6,10 +6,13 @@ import './index.css'
 import { focusNumericInputAtEnd, moveNumericCaretToEnd } from './utils/numericInput.js'
 
 const rootElement = document.getElementById('root')
-rootElement.addEventListener('pointerdown', focusNumericInputAtEnd, { capture: true })
-rootElement.addEventListener('touchstart', focusNumericInputAtEnd, { capture: true, passive: true })
+if ('PointerEvent' in window) {
+  rootElement.addEventListener('pointerdown', focusNumericInputAtEnd, { capture: true, passive: false })
+} else {
+  rootElement.addEventListener('touchstart', focusNumericInputAtEnd, { capture: true, passive: false })
+  rootElement.addEventListener('mousedown', focusNumericInputAtEnd, { capture: true })
+}
 rootElement.addEventListener('focusin', moveNumericCaretToEnd)
-rootElement.addEventListener('click', moveNumericCaretToEnd)
 
 createRoot(rootElement).render(
   <StrictMode>

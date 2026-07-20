@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TERMO_FORMATS, TERMO_TIERS, getTermoCost } from "../data/termoprintPrices.js";
 import STYLES from "../shared/appStyles.js";
-import { moveNumericCaretToEnd, sanitizeIntegerInput } from "../utils/numericInput.js";
+import { sanitizeIntegerInput } from "../utils/numericInput.js";
 import LogoMini from "./LogoMini.jsx";
 import SilkscreenOrderModal from "./SilkscreenOrderModal.jsx";
 import TG from "./TG.jsx";
@@ -172,15 +172,12 @@ export default function TermoprintCalcPage({ onBack, onGoHome, onOpenCookiePolic
                   <div>
                     <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8, display: "block" }}>Тираж, шт</label>
                     <input
+                      data-caret-end
                       type="text"
                       inputMode="numeric"
                       pattern="[0-9]*"
                       value={it.qty || ""}
                       onChange={(event) => upd(it.id, "qty", sanitizeIntegerInput(event.target.value))}
-                      onFocus={moveNumericCaretToEnd}
-                      onClick={moveNumericCaretToEnd}
-                      onPointerUp={moveNumericCaretToEnd}
-                      onTouchEnd={moveNumericCaretToEnd}
                       className="inf"
                       aria-label="Тираж, шт"
                       style={{ padding: "12px 16px", fontSize: 16, fontWeight: 500, textAlign: "center" }}

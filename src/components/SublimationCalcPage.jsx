@@ -7,7 +7,7 @@ import {
   getSublimationCost,
 } from "../data/sublimationPrices.js";
 import STYLES from "../shared/appStyles.js";
-import { moveNumericCaretToEnd, sanitizeDecimalInput } from "../utils/numericInput.js";
+import { sanitizeDecimalInput } from "../utils/numericInput.js";
 import LogoMini from "./LogoMini.jsx";
 import SilkscreenOrderModal from "./SilkscreenOrderModal.jsx";
 import TG from "./TG.jsx";
@@ -138,19 +138,16 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
               <div style={{ position: "relative" }}>
                 <input
                   id="sublimation-meters"
+                  data-caret-end
                   type="text"
                   inputMode="decimal"
                   value={meters}
                   onChange={(event) => setMeters(sanitizeDecimalInput(event.target.value))}
-                  onFocus={moveNumericCaretToEnd}
-                  onClick={moveNumericCaretToEnd}
-                  onPointerUp={moveNumericCaretToEnd}
-                  onTouchEnd={moveNumericCaretToEnd}
                   className="inf sublimation-input"
                   placeholder="Например, 10,5"
                   style={{ fontSize: 16, fontWeight: 650, paddingRight: 62 }}
                 />
-                <span style={{ position: "absolute", right: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(240,238,245,.38)", fontWeight: 600 }}>м</span>
+                <span style={{ position: "absolute", right: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(240,238,245,.38)", fontWeight: 600, pointerEvents: "none" }}>м</span>
               </div>
               <div style={{ fontSize: 12, color: "rgba(240,238,245,.34)", lineHeight: 1.5, marginTop: 8 }}>Минимальный метраж — {SUBLIMATION_MIN_METERS} м.</div>
 
