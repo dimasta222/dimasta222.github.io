@@ -7,7 +7,7 @@ import { focusNumericInputAtEnd, moveNumericCaretToEnd } from './utils/numericIn
 
 const rootElement = document.getElementById('root')
 rootElement.addEventListener('pointerdown', focusNumericInputAtEnd, { capture: true })
-rootElement.addEventListener('touchstart', focusNumericInputAtEnd, { capture: true, passive: false })
+rootElement.addEventListener('touchstart', focusNumericInputAtEnd, { capture: true, passive: true })
 rootElement.addEventListener('focusin', moveNumericCaretToEnd)
 rootElement.addEventListener('click', moveNumericCaretToEnd)
 

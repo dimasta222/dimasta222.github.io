@@ -41,6 +41,7 @@ import { PAGES_BY_ID, PAGES_BY_URL } from "./seo/pagesMeta.js";
 import STYLES from "./shared/appStyles.js";
 import { parsePriceValue } from "./shared/textileHelpers.js";
 import { reachGoal, hit as ymHit } from "./utils/metrika.js";
+import { moveNumericCaretToEnd, sanitizeDecimalInput, sanitizeIntegerInput } from "./utils/numericInput.js";
 import { clearCalcFiles, clearCalcState, deleteCalcFile, loadCalcFile, loadCalcState, saveCalcFile, saveCalcState } from "./utils/persistStorage.js";
 
 const PortfolioPage = lazy(() => import("./portfolio/PortfolioCatalogPage.jsx"));
@@ -1371,7 +1372,27 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
                     return (
                       <div key={f}>
                         <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 5, display: "block" }}>{label}</label>
-                        <input type="number" value={it[f] || ""} onChange={e => upd(it.id, f, e.target.value)} readOnly={locked} tabIndex={locked ? -1 : undefined} className="inf" style={{ padding: "10px 12px", fontSize: 16, fontWeight: 500, textAlign: "center", ...(locked ? { opacity: .55, pointerEvents: "none" } : {}) }} min={f === "qty" ? 1 : 0.1} step={f === "qty" ? 1 : 0.5} />
+                        <input
+                          type="text"
+                          inputMode={f === "qty" ? "numeric" : "decimal"}
+                          pattern={f === "qty" ? "[0-9]*" : "[0-9]*[.,]?[0-9]*"}
+                          value={it[f] || ""}
+                          onChange={(event) => {
+                            const value = f === "qty"
+                              ? sanitizeIntegerInput(event.target.value)
+                              : sanitizeDecimalInput(event.target.value).replace(",", ".");
+                            upd(it.id, f, value);
+                          }}
+                          onFocus={moveNumericCaretToEnd}
+                          onClick={moveNumericCaretToEnd}
+                          onPointerUp={moveNumericCaretToEnd}
+                          onTouchEnd={moveNumericCaretToEnd}
+                          readOnly={locked}
+                          tabIndex={locked ? -1 : undefined}
+                          className="inf"
+                          style={{ padding: "10px 12px", fontSize: 16, fontWeight: 500, textAlign: "center", ...(locked ? { opacity: .55, pointerEvents: "none" } : {}) }}
+                          aria-label={label}
+                        />
                       </div>
                     );
                   })}

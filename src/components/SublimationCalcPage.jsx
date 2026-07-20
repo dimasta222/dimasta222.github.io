@@ -7,6 +7,7 @@ import {
   getSublimationCost,
 } from "../data/sublimationPrices.js";
 import STYLES from "../shared/appStyles.js";
+import { moveNumericCaretToEnd, sanitizeDecimalInput } from "../utils/numericInput.js";
 import LogoMini from "./LogoMini.jsx";
 import SilkscreenOrderModal from "./SilkscreenOrderModal.jsx";
 import TG from "./TG.jsx";
@@ -140,7 +141,11 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
                   type="text"
                   inputMode="decimal"
                   value={meters}
-                  onChange={(event) => setMeters(event.target.value)}
+                  onChange={(event) => setMeters(sanitizeDecimalInput(event.target.value))}
+                  onFocus={moveNumericCaretToEnd}
+                  onClick={moveNumericCaretToEnd}
+                  onPointerUp={moveNumericCaretToEnd}
+                  onTouchEnd={moveNumericCaretToEnd}
                   className="inf sublimation-input"
                   placeholder="Например, 10,5"
                   style={{ fontSize: 16, fontWeight: 650, paddingRight: 62 }}
