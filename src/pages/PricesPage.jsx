@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { METER_PRICES, PRINT_FORMATS } from "../data/printFormats.js";
 import { SILK_FORMATS, SILK_TIERS } from "../data/silkscreenPrices.js";
 import {
-  SUBLIMATION_LOWEST_PRINT_RATE,
-  SUBLIMATION_PRINT_TIERS,
-  SUBLIMATION_SHRINK_TIERS,
-  SUBLIMATION_WORK_WIDTH_M,
+    SUBLIMATION_LOWEST_PRINT_RATE,
+    SUBLIMATION_PRINT_TIERS,
+    SUBLIMATION_SHRINK_TIERS,
+    SUBLIMATION_WORK_WIDTH_M,
 } from "../data/sublimationPrices.js";
 import { TERMO_FORMATS, TERMO_TIERS } from "../data/termoprintPrices.js";
+import { scrollToPageElement, scrollToPageTop } from "../utils/scrollPosition.js";
 import ServicePageLayout from "./ServicePageLayout.jsx";
 
 const TELEGRAM_URL = "https://t.me/FUTURE_178";
@@ -184,6 +185,7 @@ function CalculatorLink({ to, color, label, darkText = false }) {
     <Link
       className="prices-calculator-cta"
       to={to}
+      onClick={scrollToPageTop}
       aria-label={`Открыть онлайн-калькулятор: ${label}`}
       style={{ "--cta-color": color, "--cta-text": darkText ? "#08080c" : "#fff" }}
     >
@@ -202,6 +204,18 @@ export default function PricesPage(props) {
   const silkFormat = SILK_FORMATS.find((format) => format.name === silkFormatName) || SILK_FORMATS[0];
   const thermoFormat = TERMO_FORMATS.find((format) => format.name === thermoFormatName) || TERMO_FORMATS[0];
 
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const sectionId = window.location.hash.replace(/^#/, "");
+      if (sectionId) {
+        scrollToPageElement(document.getElementById(sectionId));
+      } else {
+        scrollToPageTop();
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <ServicePageLayout {...props}>
       <style>{`
@@ -213,7 +227,7 @@ export default function PricesPage(props) {
         .prices-hero h1{font-size:clamp(38px,6vw,68px);line-height:1.02;font-weight:200;margin:14px 0 20px;letter-spacing:-1.5px}
         .prices-hero h1 span{font-weight:700;background:linear-gradient(135deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .prices-hero-copy{max-width:680px;font-size:clamp(15px,1.8vw,18px);line-height:1.68;color:var(--muted);font-weight:300;margin:0 0 28px}
-        .prices-actions{display:flex;gap:12px;flex-wrap:wrap}.prices-actions a,.prices-actions button{border-radius:999px;padding:14px 24px;font:500 15px inherit;text-decoration:none;cursor:pointer}
+        .prices-actions{display:flex;gap:12px;flex-wrap:wrap}.prices-actions a,.prices-actions button{border-radius:999px;padding:14px 24px;font-family:inherit;font-size:16px;font-weight:500;line-height:1.2;text-decoration:none;cursor:pointer}
         .prices-primary{border:0;color:#fff;background:linear-gradient(135deg,var(--pink),var(--violet));box-shadow:0 18px 42px rgba(232,67,147,.2)}
         .prices-secondary{color:#f0eef5;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
         .prices-hero-photo{position:relative;min-height:430px;border-radius:30px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#11111a;box-shadow:0 26px 80px rgba(0,0,0,.34)}
@@ -234,14 +248,14 @@ export default function PricesPage(props) {
         .prices-format-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:22px;overflow:hidden}
         .prices-format-card{padding:20px;background:#0e0e15;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}.prices-format-card span{font-size:12px;color:rgba(240,238,245,.42)}.prices-format-card strong{font-size:22px;margin:8px 0}.prices-format-card b{font-size:20px;color:var(--pink)}.prices-format-card small{font-size:11px;color:rgba(240,238,245,.4);margin-top:4px}
         .prices-meter{border:1px solid rgba(255,255,255,.08);border-radius:22px;overflow:hidden;background:rgba(255,255,255,.018)}.prices-meter-head{padding:20px;border-bottom:1px solid rgba(255,255,255,.07)}.prices-meter-head span{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(240,238,245,.4)}.prices-meter-head h3{font-size:19px;margin:7px 0 0}.prices-meter-row{display:flex;justify-content:space-between;gap:12px;padding:13px 20px;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}.prices-meter-row:last-child{border-bottom:0}.prices-meter-row span{color:rgba(240,238,245,.55)}.prices-meter-row strong{color:var(--pink)}
-        .prices-format-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;scrollbar-width:none}.prices-format-tabs::-webkit-scrollbar{display:none}.prices-format-tabs button{flex:0 0 auto;min-width:64px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);color:rgba(240,238,245,.55);font:600 13px inherit;cursor:pointer}
+        .prices-format-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;scrollbar-width:none}.prices-format-tabs::-webkit-scrollbar{display:none}.prices-format-tabs button{flex:0 0 auto;min-width:64px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);color:rgba(240,238,245,.55);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
         .prices-table-shell{border:1px solid rgba(255,255,255,.08);border-radius:22px;overflow:hidden;background:rgba(255,255,255,.015)}.prices-table-caption{display:flex;justify-content:space-between;gap:18px;align-items:end;padding:19px 22px;border-bottom:1px solid rgba(255,255,255,.07)}.prices-table-caption span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(240,238,245,.35);margin-bottom:5px}.prices-table-caption strong{font-size:20px}.prices-table-caption small{color:rgba(240,238,245,.4)}.prices-table-scroll{overflow-x:auto}.prices-matrix{width:100%;min-width:760px;border-collapse:collapse}.prices-matrix th,.prices-matrix td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.05);text-align:right;white-space:nowrap;font-size:13px}.prices-matrix th{font-size:11px;letter-spacing:.6px;color:rgba(240,238,245,.4);font-weight:600;background:rgba(255,255,255,.018)}.prices-matrix th:first-child,.prices-matrix td:first-child{text-align:left;position:sticky;left:0;background:#0d0d14;z-index:1}.prices-matrix td:first-child{font-weight:600;color:#f0eef5}.prices-matrix tbody tr:last-child td{border-bottom:0}
         .prices-note{display:flex;gap:12px;align-items:flex-start;margin-top:16px;padding:14px 16px;border:1px solid;border-radius:15px}.prices-note>span{width:8px;height:8px;border-radius:50%;margin-top:6px;flex:0 0 auto}.prices-note p{font-size:13px;line-height:1.55;color:rgba(240,238,245,.58);margin:0}
         .prices-sublimation-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.prices-sublimation-layout .prices-meter-row strong{color:#fdcb6e}.prices-sublimation-meta{display:flex;justify-content:space-between;align-items:center;gap:22px;margin-top:18px;padding:20px 22px;border-radius:20px;border:1px solid rgba(253,203,110,.24);background:linear-gradient(135deg,rgba(253,203,110,.09),rgba(0,210,211,.055))}.prices-sublimation-meta>div>span{display:block;font-size:12px;color:rgba(240,238,245,.42);margin-bottom:5px}.prices-sublimation-meta>div>strong{font-size:21px}.prices-section-cta{display:flex;justify-content:flex-end;margin-top:18px}.prices-calculator-cta{flex:0 0 auto;min-width:310px;display:grid;grid-template-columns:42px minmax(0,1fr) 24px;align-items:center;gap:12px;padding:10px 13px;border-radius:17px;border:1px solid color-mix(in srgb,var(--cta-color) 72%,white);color:var(--cta-text);text-decoration:none;background:linear-gradient(135deg,var(--cta-color),color-mix(in srgb,var(--cta-color) 72%,#08080c));box-shadow:0 16px 36px color-mix(in srgb,var(--cta-color) 22%,transparent);transition:border-color .2s ease,box-shadow .2s ease}.prices-calculator-cta:hover{border-color:color-mix(in srgb,var(--cta-color) 45%,white);box-shadow:0 18px 42px color-mix(in srgb,var(--cta-color) 32%,transparent)}.prices-calculator-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}.prices-calculator-cta-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.14)}.prices-calculator-cta-copy{min-width:0}.prices-calculator-cta-copy small{display:block;margin-bottom:2px;color:currentColor;opacity:.68;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}.prices-calculator-cta-copy strong{display:block;color:currentColor;font-size:15px;line-height:1.25}.prices-calculator-cta-arrow{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);font-size:15px}
         .prices-extra-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.prices-extra-card{padding:19px;border-radius:18px;border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.02)}.prices-extra-card span{font-size:11px;color:rgba(240,238,245,.38);text-transform:uppercase;letter-spacing:1px}.prices-extra-card strong{display:block;font-size:18px;margin:9px 0}.prices-extra-card p{font-size:12px;color:rgba(240,238,245,.5);line-height:1.5;margin:0}
         .prices-final{margin:28px 0 78px;padding:clamp(26px,5vw,48px);border-radius:28px;border:1px solid rgba(232,67,147,.25);background:radial-gradient(circle at 85% 10%,rgba(108,92,231,.19),transparent 35%),linear-gradient(145deg,rgba(232,67,147,.1),rgba(255,255,255,.02));display:flex;justify-content:space-between;gap:30px;align-items:center}.prices-final h2{font-size:clamp(25px,4vw,38px);font-weight:250;margin:0 0 10px}.prices-final p{max-width:650px;color:var(--muted);line-height:1.6;margin:0}
         @media(max-width:980px){.prices-hero-grid{grid-template-columns:1fr}.prices-hero-photo{min-height:360px}.prices-methods{grid-template-columns:repeat(2,minmax(0,1fr))}.prices-dtf-layout{grid-template-columns:1fr}.prices-extra-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-        @media(max-width:640px){.prices-hero{padding:38px 0 30px}.prices-hero h1{letter-spacing:-.6px}.prices-hero-photo{min-height:280px;border-radius:22px}.prices-methods{display:flex;overflow-x:auto;margin-inline:-5.5%;padding:8px 5.5% 40px;scroll-snap-type:x mandatory;scrollbar-width:none}.prices-methods::-webkit-scrollbar{display:none}.prices-method-card{flex:0 0 82%;min-height:265px;scroll-snap-align:start}.prices-sticky{top:72px}.prices-section{padding:54px 0}.prices-format-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.prices-sublimation-layout,.prices-extra-grid{grid-template-columns:1fr}.prices-sublimation-meta{align-items:flex-start;flex-direction:column}.prices-section-cta,.prices-calculator-cta{width:100%}.prices-calculator-cta{min-width:0}.prices-table-caption{align-items:start;flex-direction:column}.prices-final{align-items:flex-start;flex-direction:column;margin-bottom:54px}.prices-actions{width:100%}.prices-actions a,.prices-actions button{flex:1;text-align:center;white-space:nowrap}}
+        @media(max-width:640px){.prices-hero{padding:38px 0 30px}.prices-hero h1{letter-spacing:-.6px}.prices-hero-photo{min-height:280px;border-radius:22px}.prices-methods{display:flex;overflow-x:auto;width:90%;margin-inline:auto;padding:8px 0 40px;gap:12px;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}.prices-methods::-webkit-scrollbar{display:none}.prices-method-card{flex:0 0 min(82%,300px);min-height:265px;scroll-snap-align:start}.prices-sticky{top:72px}.prices-section{padding:54px 0}.prices-format-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.prices-sublimation-layout,.prices-extra-grid{grid-template-columns:1fr}.prices-sublimation-meta{align-items:flex-start;flex-direction:column}.prices-section-cta,.prices-calculator-cta{width:100%}.prices-calculator-cta{min-width:0}.prices-calculator-cta-copy strong{font-size:16px}.prices-table-caption{align-items:start;flex-direction:column}.prices-final{align-items:flex-start;flex-direction:column;margin-bottom:54px}.prices-actions{width:100%}.prices-actions a,.prices-actions button{flex:1;text-align:center;white-space:normal}}
       `}</style>
 
       <div className="prices-page">

@@ -1,13 +1,14 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { scrollToPageTop } from "./utils/scrollPosition.js";
 
 // Prevent browser from restoring scroll positions on hash-based SPA navigation.
 if (typeof history !== "undefined") history.scrollRestoration = "manual";
 // Force scroll to top on initial load and when restored from bfcache (especially on mobile Safari).
 if (typeof window !== "undefined") {
-  window.scrollTo(0, 0);
+  scrollToPageTop();
   window.addEventListener("pageshow", (event) => {
-    if (event.persisted) window.scrollTo(0, 0);
+    if (event.persisted) scrollToPageTop();
   });
 }
 
@@ -719,7 +720,7 @@ function TextilePage({ type, onBack, onGoHome, onNavigate, initialProduct, onCle
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    scrollToPageTop();
   }, [type]);
 
   // Resolve a catalog item from a hint that may carry galleryModel + variant label.
@@ -777,7 +778,7 @@ function TextilePage({ type, onBack, onGoHome, onNavigate, initialProduct, onCle
     detailOpenedFromCatalogRef.current = true;
     setSelectedProduct(product);
     history.pushState({ textileDetail: true }, "");
-    window.scrollTo(0, 0);
+    scrollToPageTop();
   };
 
   // Кнопка «Назад к каталогу» внутри карточки товара:
@@ -792,7 +793,7 @@ function TextilePage({ type, onBack, onGoHome, onNavigate, initialProduct, onCle
   };
 
   useEffect(() => {
-    if (selectedProduct) window.scrollTo(0, 0);
+    if (selectedProduct) scrollToPageTop();
   }, [selectedProduct]);
 
   useEffect(() => {
@@ -1898,7 +1899,7 @@ export default function App() {
     setPg(getPageFromPath(location.pathname));
     setMn(false);
     setTxMenuOpen(false);
-    window.scrollTo(0, 0);
+    scrollToPageTop();
   }, [location.pathname]);
 
   // Запоминаем последнюю страницу, не являющуюся калькулятором.
@@ -1965,7 +1966,7 @@ export default function App() {
     navigate(getPathForPage(page), { replace, state: buildNavigationState(state) });
     setMn(false);
     setTxMenuOpen(false);
-    if (scrollToTop) window.scrollTo(0, 0);
+    if (scrollToTop) scrollToPageTop();
   };
 
   const go = (s) => {
@@ -1979,7 +1980,7 @@ export default function App() {
   const goTextile = (type) => { navigateToPage("textile_" + type); };
   // Навигация по страницам услуг (выпадающее меню «Печать») — общий обработчик
   // для главной и для SEO-страниц: переходим по path напрямую.
-  const goService = (url) => { navigate(url, { state: buildNavigationState() }); setMn(false); setSvcMenuOpen(false); setTxMenuOpen(false); window.scrollTo(0, 0); };
+  const goService = (url) => { navigate(url, { state: buildNavigationState() }); setMn(false); setSvcMenuOpen(false); setTxMenuOpen(false); scrollToPageTop(); };
   const oc = () => { navigateToPage("calc_choice"); };
   // Прямой переход в калькулятор DTF (минуя экран выбора калькулятора).
   const openDtfCalc = () => { navigateToPage("calc"); };
@@ -1997,20 +1998,20 @@ export default function App() {
     setInitialTextileProduct(null);
     setAc("Главная");
     navigate("/", { replace: true, state: { backStack: [] } });
-    window.scrollTo(0, 0);
+    scrollToPageTop();
   };
   // Возврат из калькулятора на страницу, с которой пришёл пользователь.
   const goBackFromCalc = () => {
     const backTarget = resolveBackTarget({ allowCalculator: true });
     if (backTarget) {
       navigate(backTarget.path, { state: backTarget.state });
-      window.scrollTo(0, 0);
+      scrollToPageTop();
       return;
     }
     const prev = normalizePath(prevNonCalcPathRef.current);
     if (prev && !prev.startsWith("/calculator/")) {
       navigate(prev, { state: { backStack: [] } });
-      window.scrollTo(0, 0);
+      scrollToPageTop();
       return;
     }
     navigateToPage("main");
@@ -2023,7 +2024,7 @@ export default function App() {
     const backTarget = resolveBackTarget({ allowCalculator: true });
     if (backTarget) {
       navigate(backTarget.path, { state: backTarget.state });
-      window.scrollTo(0, 0);
+      scrollToPageTop();
       return;
     }
     navigateToPage(fallback);
@@ -2177,7 +2178,7 @@ export default function App() {
       {/* PRICING */}
       <PricingSection
         Reveal={A}
-        onOpenPrices={() => goService("/ceny/")}
+        onOpenPrices={(methodId) => goService(`/ceny/#${methodId}`)}
         onOpenCalculator={oc}
       />
 

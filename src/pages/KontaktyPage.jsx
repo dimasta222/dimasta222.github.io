@@ -7,6 +7,15 @@ const accent2 = "#6c5ce7";
 const cyan = "#00d2d3";
 const yandexMapsUrl = "https://yandex.ru/maps/org/future_studio/220314499581/";
 
+function ExternalArrowIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M7 17 17 7" />
+      <path d="M8 7h9v9" />
+    </svg>
+  );
+}
+
 function ContactIcon({ type, color = accent }) {
   const common = { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true };
   const paths = {
@@ -34,7 +43,7 @@ function ContactMethod({ item }) {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}>
         <ContactIcon type={item.icon} color={item.color} />
-        <span style={{ color: item.color, fontSize: 22, lineHeight: 1 }} aria-hidden="true">↗</span>
+        <span style={{ color: item.color, display: "inline-flex", lineHeight: 1 }}><ExternalArrowIcon size={22} /></span>
       </div>
       <div>
         <div style={{ color: "rgba(240,238,245,.42)", fontSize: 11, fontWeight: 700, letterSpacing: 1.8, textTransform: "uppercase", marginBottom: 8 }}>{item.label}</div>
@@ -85,7 +94,7 @@ export default function KontaktyPage(props) {
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 11, marginTop: 26 }}>
-                <a href={BUSINESS.telegram} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "14px 22px", borderRadius: 999, background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", textDecoration: "none", fontSize: 14, fontWeight: 750, boxShadow: `0 18px 44px ${accent}25` }}><span aria-hidden="true">↗</span> Написать в Telegram</a>
+                <a href={BUSINESS.telegram} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "14px 22px", borderRadius: 999, background: `linear-gradient(135deg,${accent},${accent2})`, color: "#fff", textDecoration: "none", fontSize: 14, fontWeight: 750, boxShadow: `0 18px 44px ${accent}25` }}><ExternalArrowIcon /> Написать в Telegram</a>
                 <a href={`tel:${BUSINESS.phoneHref}`} style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "14px 22px", borderRadius: 999, border: "1px solid rgba(255,255,255,.11)", background: "rgba(255,255,255,.045)", color: "#f0eef5", textDecoration: "none", fontSize: 14, fontWeight: 700 }}>Позвонить</a>
               </div>
             </div>

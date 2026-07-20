@@ -1,19 +1,19 @@
-import CalcIcon from "./CalcIcon.jsx";
 import { PRINT_FORMATS } from "../data/printFormats.js";
 import { SILK_FORMATS } from "../data/silkscreenPrices.js";
 import { SUBLIMATION_LOWEST_PRINT_RATE } from "../data/sublimationPrices.js";
 import { TERMO_FORMATS } from "../data/termoprintPrices.js";
+import CalcIcon from "./CalcIcon.jsx";
 
 const minPrice = (formats) => Math.min(
   ...formats.flatMap((format) => format.rows.flatMap((row) => row.prices)),
 );
 
 const METHODS = [
-  { title: "DTF-печать", price: `от ${PRINT_FORMATS[0].price} ₽`, note: "по формату · от 5 шт", color: "#e84393" },
-  { title: "Шелкография", price: `от ${minPrice(SILK_FORMATS)} ₽`, note: "по цветам и тиражу", color: "#6c5ce7" },
-  { title: "Термопечать", price: `от ${minPrice(TERMO_FORMATS)} ₽`, note: "1–3 цвета", color: "#00d2d3" },
-  { title: "Сублимация", price: `от ${SUBLIMATION_LOWEST_PRINT_RATE} ₽/м`, note: "при метраже от 60 м", color: "#fdcb6e" },
-  { title: "Вышивка", price: "Скоро", note: "готовим запуск услуги", color: "#a777e3", disabled: true },
+  { id: "dtf", title: "DTF-печать", price: `от ${PRINT_FORMATS[0].price} ₽`, note: "по формату · от 5 шт", color: "#e84393" },
+  { id: "silk", title: "Шелкография", price: `от ${minPrice(SILK_FORMATS)} ₽`, note: "по цветам и тиражу", color: "#6c5ce7" },
+  { id: "thermo", title: "Термопечать", price: `от ${minPrice(TERMO_FORMATS)} ₽`, note: "1–3 цвета", color: "#00d2d3" },
+  { id: "sublimation", title: "Сублимация", price: `от ${SUBLIMATION_LOWEST_PRINT_RATE} ₽/м`, note: "при метраже от 60 м", color: "#fdcb6e" },
+  { id: "embroidery", title: "Вышивка", price: "Скоро", note: "готовим запуск услуги", color: "#a777e3", disabled: true },
 ];
 
 export default function PricingSection({ Reveal: _Reveal, onOpenPrices, onOpenCalculator }) {
@@ -33,7 +33,7 @@ export default function PricingSection({ Reveal: _Reveal, onOpenPrices, onOpenCa
                 type="button"
                 key={method.title}
                 disabled={method.disabled}
-                onClick={method.disabled ? undefined : onOpenPrices}
+                onClick={method.disabled ? undefined : () => onOpenPrices(method.id)}
                 style={{ minHeight: 190, padding: 20, borderRadius: 20, border: `1px solid ${method.color}42`, background: `linear-gradient(145deg,${method.color}14,rgba(255,255,255,.015) 62%)`, color: "#f0eef5", textAlign: "left", cursor: method.disabled ? "not-allowed" : "pointer", fontFamily: "inherit", display: "flex", flexDirection: "column", justifyContent: "space-between", transition: "border-color .25s ease,box-shadow .25s ease,background .25s ease", opacity: method.disabled ? .68 : 1 }}
                 onMouseEnter={(event) => { if (!method.disabled) { event.currentTarget.style.borderColor = `${method.color}88`; event.currentTarget.style.boxShadow = `0 16px 38px ${method.color}18`; } }}
                 onMouseLeave={(event) => { if (!method.disabled) { event.currentTarget.style.borderColor = `${method.color}42`; event.currentTarget.style.boxShadow = "none"; } }}

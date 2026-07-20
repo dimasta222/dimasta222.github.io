@@ -14,12 +14,14 @@ import SilkscreenOrderModal from "./SilkscreenOrderModal.jsx";
 import TG from "./TG.jsx";
 
 const STORAGE_KEY = "silkscreen-calc-state";
+const STORAGE_VERSION = 2;
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const state = JSON.parse(raw);
+    return state?.version === STORAGE_VERSION ? state : null;
   } catch {
     return null;
   }
@@ -36,7 +38,7 @@ function saveState(state) {
 const COLOR_OPTIONS = SILK_FORMATS[0].rows.map((r) => ({ value: String(r.colors), label: r.label }));
 
 function makeItem(id) {
-  return { id, format: "A4", colors: "1", qty: 100, fabric: "color", garment: "normal", extras: [], thermo: false };
+  return { id, format: "A6", colors: "1", qty: 30, fabric: "color", garment: "normal", extras: [], thermo: false };
 }
 
 // Текстовая сводка выбранных доплат (для результата и заказа).
@@ -64,7 +66,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
   const [orderModalOpen, setOrderModalOpen] = useState(false);
 
   useEffect(() => {
-    saveState({ items, nid });
+    saveState({ version: STORAGE_VERSION, items, nid });
   }, [items, nid]);
 
   const add = () => {
@@ -76,7 +78,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
   const toggleExtra = (id, value) => setItems((arr) => arr.map((it) => {
     if (it.id !== id) return it;
     const cur = it.extras || [];
-    const next = cur.includes(value) ? cur.filter((v) => v !== value) : [...cur, value];
+    const next = cur.includes(value) ? [] : [value];
     return { ...it, extras: next };
   }));
   const resetCalc = () => { setItems([makeItem(1)]); setNid(2); };
@@ -125,10 +127,13 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
           .silk-price-grid{grid-template-columns:1fr!important}
           .silk-notes{grid-template-columns:1fr!important}
         }
+        .silk-price-grid,.silk-price-grid>div{min-width:0}
+        .silk-scroll{width:100%;max-width:100%;overflow-x:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain;scrollbar-width:thin;scrollbar-color:rgba(232,67,147,.55) rgba(255,255,255,.04)}
+        .silk-scroll::-webkit-scrollbar{height:4px}
         @media(max-width:600px){
           .silk-head{margin:22px 0 18px!important}
           .silk-card{padding:16px 16px!important}
-          .silk-scroll{margin:0 -16px;padding:0 16px}
+          .silk-scroll{margin:0!important;padding:0 0 8px!important}
           .silk-price-table{font-size:12px!important;min-width:420px!important}
           .silk-price-table th,.silk-price-table td{padding:4px 5px!important}
           .silk-effects-row{gap:6px!important}
@@ -162,9 +167,9 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
 
         {switcher}
 
-        <div className="cg2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 48, alignItems: "start", marginTop: 24 }}>
+        <div className="cg2" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 28, marginBottom: 48, alignItems: "start", marginTop: 24, minWidth: 0 }}>
           {/* Левая колонка — ввод позиций */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 0 }}>
             {computed.map((it, idx) => (
               <div key={it.id} className="cs calc-panel" style={{ padding: "20px 22px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
@@ -247,7 +252,7 @@ export default function SilkscreenCalcPage({ onBack, onGoHome, onOpenCookiePolic
           </div>
 
           {/* Правая колонка — результат и тарифы */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 0 }}>
             <div className="cs calc-panel" style={{ padding: 28, border: "1px solid rgba(232,67,147,.15)" }}>
               <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: 2, color: "#e84393", textTransform: "uppercase", marginBottom: 24 }}>Результат</div>
 
