@@ -26,7 +26,6 @@ import LogoMini from "./components/LogoMini.jsx";
 import MainNavigation from "./components/MainNavigation.jsx";
 import MainTshirtCard from "./components/MainTshirtCard.jsx";
 import MessengerPicker from "./components/MessengerPicker.jsx";
-import NumericCaretInput from "./components/NumericCaretInput.jsx";
 import PricingSection from "./components/PricingSection.jsx";
 import ProductCard from "./components/ProductCard.jsx";
 import ReviewsSection from "./components/ReviewsSection.jsx";
@@ -42,7 +41,6 @@ import { PAGES_BY_ID, PAGES_BY_URL } from "./seo/pagesMeta.js";
 import STYLES from "./shared/appStyles.js";
 import { parsePriceValue } from "./shared/textileHelpers.js";
 import { reachGoal, hit as ymHit } from "./utils/metrika.js";
-import { sanitizeDecimalInput, sanitizeIntegerInput } from "./utils/numericInput.js";
 import { clearCalcFiles, clearCalcState, deleteCalcFile, loadCalcFile, loadCalcState, saveCalcFile, saveCalcState } from "./utils/persistStorage.js";
 
 const PortfolioPage = lazy(() => import("./portfolio/PortfolioCatalogPage.jsx"));
@@ -1373,17 +1371,17 @@ function CalcPage({ onBack, onGoHome, onOpenCookiePolicy, switcher }) {
                     return (
                       <div key={f}>
                         <label style={{ fontSize: 11, fontWeight: 400, color: "rgba(240,238,245,.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 5, display: "block" }}>{label}</label>
-                        <NumericCaretInput
-                          type="text"
-                          inputMode={f === "qty" ? "numeric" : "decimal"}
-                          pattern={f === "qty" ? "[0-9]*" : undefined}
+                        <input
+                          type="number"
                           value={it[f] || ""}
-                          onChange={(event) => upd(it.id, f, f === "qty" ? sanitizeIntegerInput(event.target.value) : sanitizeDecimalInput(event.target.value))}
+                          onChange={(event) => upd(it.id, f, event.target.value)}
                           readOnly={locked}
                           tabIndex={locked ? -1 : undefined}
                           className="inf"
                           style={{ padding: "10px 12px", fontSize: 16, fontWeight: 500, textAlign: "center", ...(locked ? { opacity: .55, pointerEvents: "none" } : {}) }}
                           aria-label={label}
+                          min={f === "qty" ? 1 : 0.1}
+                          step={f === "qty" ? 1 : 0.5}
                         />
                       </div>
                     );
