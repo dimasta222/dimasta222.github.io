@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  SUBLIMATION_PRINT_TIERS,
-  SUBLIMATION_SHRINK_TIERS,
-  SUBLIMATION_MIN_METERS,
-  SUBLIMATION_WORK_WIDTH_M,
-  getSublimationCost,
+    SUBLIMATION_MIN_METERS,
+    SUBLIMATION_PRINT_TIERS,
+    SUBLIMATION_SHRINK_TIERS,
+    SUBLIMATION_WORK_WIDTH_M,
+    getSublimationCost,
 } from "../data/sublimationPrices.js";
 import STYLES from "../shared/appStyles.js";
+import { sanitizeDecimalInput } from "../utils/numericInput.js";
 import LogoMini from "./LogoMini.jsx";
+import NumericCaretInput from "./NumericCaretInput.jsx";
 import SilkscreenOrderModal from "./SilkscreenOrderModal.jsx";
 import TG from "./TG.jsx";
 
@@ -135,15 +137,14 @@ export default function SublimationCalcPage({ onBack, onGoHome, onOpenCookiePoli
 
               <label htmlFor="sublimation-meters" style={{ display: "block", fontSize: 11, fontWeight: 500, letterSpacing: 1.2, color: "rgba(240,238,245,.42)", textTransform: "uppercase", marginBottom: 8 }}>Метраж печати</label>
               <div style={{ position: "relative" }}>
-                <input
+                <NumericCaretInput
                   id="sublimation-meters"
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   value={meters}
-                  onChange={(event) => setMeters(event.target.value)}
+                  onChange={(event) => setMeters(sanitizeDecimalInput(event.target.value))}
                   className="inf sublimation-input"
                   placeholder="Например, 10,5"
-                  min={SUBLIMATION_MIN_METERS}
-                  step={0.1}
                   style={{ fontSize: 16, fontWeight: 650, paddingRight: 62 }}
                 />
                 <span style={{ position: "absolute", right: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(240,238,245,.38)", fontWeight: 600, pointerEvents: "none" }}>м</span>

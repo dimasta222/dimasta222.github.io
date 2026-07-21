@@ -48,5 +48,5 @@ export function sanitizeDecimalInput(value) {
   const separatorIndex = cleaned.search(/[.,]/);
   if (separatorIndex < 0) return cleaned;
 
-  return `${cleaned.slice(0, separatorIndex)}${cleaned[separatorIndex]}${cleaned.slice(separatorIndex + 1).replace(/[.,]/g, "")}`;
+  return `${cleaned.slice(0, separatorIndex)}.${cleaned.slice(separatorIndex + 1).replace(/[.,]/g, "")}`;
 }
