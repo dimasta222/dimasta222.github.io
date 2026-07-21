@@ -117,7 +117,6 @@ a{color:inherit}
 .inf::placeholder{color:rgba(240,238,245,.25)}
 .numeric-caret-shell{position:relative;display:block;width:100%}
 .numeric-caret-activator{position:absolute;inset:0;z-index:2;border-radius:14px;background:transparent;cursor:text;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.numeric-caret-shell:focus-within .numeric-caret-activator{pointer-events:none}
 .nb{backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);isolation:isolate;transform:translateZ(0);backface-visibility:hidden}
 .tb{padding:10px 24px;border-radius:50px;border:none;cursor:pointer;font-size:14px;font-weight:400;letter-spacing:.5px;transition:all .3s;font-family:'Outfit',sans-serif}
 .ta{background:linear-gradient(135deg,#e84393,#6c5ce7);color:#fff}
